@@ -10,9 +10,6 @@ import (
 	"github.com/Necroforger/discordgo"
 )
 
-//TODO : Replace []*AudioDispatcher with map[string]*AudioDispatcher.
-//       Each guild should only have a single audio dispatcher.
-
 //Generate the AddHandler and AddHandlerOnce methods
 //go:generate go run tools/addhandlers/main.go
 
