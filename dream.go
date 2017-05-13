@@ -36,8 +36,7 @@ type Bot struct {
 	// Client is the bot's user
 	Client *discordgo.User
 
-	// AudioDispatchers stores all of the currently playing audio dispatchers.
-	// They should be removed from the list when done playing
+	// AudioDispatchers stores the Audio Dispatchers belonging to each guild
 	AudioDispatchers map[string]*AudioDispatcher
 }
 
