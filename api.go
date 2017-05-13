@@ -44,6 +44,8 @@ func (b *Bot) ChannelID(i interface{}) (string, error) {
 		channelid = t.ChannelID
 	case *discordgo.MessageCreate:
 		channelid = t.ChannelID
+	case *discordgo.MessageUpdate:
+		channelid = t.ChannelID
 	case *Message:
 		channelid = t.ChannelID
 	case *discordgo.VoiceState:
