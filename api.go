@@ -34,76 +34,89 @@ var (
 	ErrInvalidArgLength = errors.New("err: invalid argument length")
 )
 
+// MessageFromInterface returns the underlying message struct of an event relating to messages
+// Such as MessageCreate, MessageDelete, MessageUpdate.
+func (b *Bot) MessageFromInterface(i interface{}) (*discordgo.Message, error) {
+	switch t := i.(type) {
+	case *discordgo.MessageCreate:
+		return t.Message, nil
+	case *discordgo.MessageUpdate:
+		return t.Message, nil
+	case *discordgo.MessageDelete:
+		return t.Message, nil
+	case *Message:
+		return t.Message, nil
+	case *discordgo.Message:
+		return t, nil
+	default:
+		return nil, ErrInvalidType
+	}
+}
+
 // ChannelID Returns the channelID from a variety of objects
 func (b *Bot) ChannelID(i interface{}) (string, error) {
-	var channelid string
+
+	// Attempt to retrieve a message object from the interface
+	if m, err := b.MessageFromInterface(i); err == nil {
+		return m.ChannelID, nil
+	}
+
+	// If no message object is found check for other types containing a channelID.
 	switch t := i.(type) {
 	case string:
-		channelid = t
-	case *discordgo.Message:
-		channelid = t.ChannelID
-	case *discordgo.MessageCreate:
-		channelid = t.ChannelID
-	case *discordgo.MessageUpdate:
-		channelid = t.ChannelID
-	case *Message:
-		channelid = t.ChannelID
+		return t, nil
 	case *discordgo.VoiceState:
-		channelid = t.ChannelID
+		return t.ChannelID, nil
 	case *discordgo.VoiceConnection:
-		channelid = t.ChannelID
-	default:
-		return "", ErrInvalidType
+		return t.ChannelID, nil
 	}
-	return channelid, nil
+
+	return "", ErrInvalidType
 }
 
 // GuildID returns the GuildID from a variety of objects
 func (b *Bot) GuildID(i interface{}) (string, error) {
-	var guildid string
+
+	// Attempt to get the Message object from the interface.
+	// If it fails, check the other possible types.
+	if t, err := b.MessageFromInterface(i); err == nil {
+
+		c, err := b.Channel(t.ChannelID)
+		if err != nil {
+			return "", err
+		}
+		return c.GuildID, nil
+
+	}
+
+	// Check for other types
 	switch t := i.(type) {
-
 	case string:
-		guildid = t
-
-	case *discordgo.Message:
-		c, err := b.Channel(t.ChannelID)
-		if err != nil {
-			return "", err
-		}
-		guildid = c.GuildID
-
-	case *Message:
-		c, err := b.Channel(t.ChannelID)
-		if err != nil {
-			return "", err
-		}
-		guildid = c.GuildID
-
-	case *discordgo.MessageCreate:
-		c, err := b.Channel(t.ChannelID)
-		if err != nil {
-			return "", err
-		}
-		guildid = c.GuildID
+		return t, nil
 
 	case *discordgo.Channel:
-		guildid = t.GuildID
+		return t.GuildID, nil
 
 	case *discordgo.VoiceConnection:
-		guildid = t.GuildID
+		return t.GuildID, nil
 
 	case *discordgo.Member:
-		guildid = t.GuildID
+		return t.GuildID, nil
 
 	default:
 		return "", ErrInvalidType
 	}
-	return guildid, nil
+
 }
 
 // UserID returns the userID from a variety of objects.
 func (b *Bot) UserID(i interface{}) (userid string, err error) {
+
+	if t, err := b.MessageFromInterface(i); err == nil {
+		if t.Author != nil {
+			return t.Author.ID, nil
+		}
+	}
 
 	switch t := i.(type) {
 	case string:
@@ -118,12 +131,6 @@ func (b *Bot) UserID(i interface{}) (userid string, err error) {
 	case *discordgo.Presence:
 		return t.User.ID, nil
 
-	case *discordgo.MessageCreate:
-		return t.Author.ID, nil
-
-	case *Message:
-		return t.Author.ID, nil
-
 	default:
 		return "", ErrInvalidType
 	}
@@ -131,6 +138,12 @@ func (b *Bot) UserID(i interface{}) (userid string, err error) {
 
 // Channel is a convenience method for retrieving a channel from a variety of objects
 func (b *Bot) Channel(i interface{}) (*discordgo.Channel, error) {
+
+	// Return channel if `i` is already of type channel
+	if c, ok := i.(*discordgo.Channel); ok {
+		return c, nil
+	}
+
 	channelid, err := b.ChannelID(i)
 	if err != nil {
 		return nil, err
@@ -312,6 +325,10 @@ func (b *Bot) PlayRawFile(vc *discordgo.VoiceConnection, path string) (*AudioDis
 
 // Guild is a convenience method for retrieving a channel from a variety of objects
 func (b *Bot) Guild(i interface{}) (*discordgo.Guild, error) {
+	if g, ok := i.(*discordgo.Guild); ok {
+		return g, nil
+	}
+
 	guildid, err := b.GuildID(i)
 	if err != nil {
 		return nil, err
@@ -334,6 +351,11 @@ func (b *Bot) GuildPresence(i ...interface{}) (*discordgo.Presence, error) {
 
 	if len(i) == 0 {
 		return nil, ErrInvalidArgLength
+	}
+
+	// Return if the first argument is already a presence type
+	if p, ok := i[0].(*discordgo.Presence); ok {
+		return p, nil
 	}
 
 	//If there is only one argument, obtain both the GuildID and the UserID from it
