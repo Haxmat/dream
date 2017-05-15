@@ -510,6 +510,35 @@ func (b *Bot) GuildMemberRoles(i ...interface{}) ([]*discordgo.Role, error) {
 	return roles, nil
 }
 
+// GuildMemberRoleRemove removes a role from a guild's member
+func (b *Bot) GuildMemberRoleRemove(guildID, userID, roleID string) error {
+	return b.DG.GuildMemberRoleRemove(guildID, userID, roleID)
+}
+
+// GuildMemberRoleRemoveByName removes a role from a member by name
+func (b *Bot) GuildMemberRoleRemoveByName(guildID, userID, rolename string) error {
+	memberRoles, err := b.GuildMemberRoles(guildID, userID)
+	if err != nil {
+		return err
+	}
+
+	for _, v := range memberRoles {
+		if v.Name == rolename {
+			return b.GuildMemberRoleRemove(guildID, userID, v.ID)
+		}
+	}
+
+	return ErrNotFound
+}
+
+// GuildMemberRolesRemoveByName removes a list of roles by name from a guild member
+func (b *Bot) GuildMemberRolesRemoveByName(guildID, userID string, rolenames ...string) (err error) {
+	for _, rolename := range rolenames {
+		err = b.GuildMemberRoleRemoveByName(guildID, userID, rolename)
+	}
+	return
+}
+
 // RoleSettings is an object passes to GuildRoleCreate or GuildRoleEdit to
 // Deal with setting the values of the command easier
 // guildID   : The ID of a Guild.
