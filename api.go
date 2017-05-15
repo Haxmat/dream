@@ -23,9 +23,10 @@ import (
 
 /*                   TODO
 
-* Add type switches when needed to the interfaces when needed
+TODO: Improve GuildMemberRoleAdd, GuildMemberRoleRemove methods to accept interfaces to be more convenient.
+	  It could possibly obtain the guildID from an interface.
 
- */
+*/
 
 //Error values//
 var (
@@ -436,7 +437,7 @@ func (b *Bot) GuildMember(i ...interface{}) (*discordgo.Member, error) {
 		if err != nil {
 			return nil, err
 		}
-		guildid, err = b.UserID(i[0])
+		guildid, err = b.GuildID(i[0])
 		if err != nil {
 			return nil, err
 		}
@@ -510,21 +511,101 @@ func (b *Bot) GuildMemberRoles(i ...interface{}) ([]*discordgo.Role, error) {
 	return roles, nil
 }
 
-// GuildMemberRoleRemove removes a role from a guild's member
-func (b *Bot) GuildMemberRoleRemove(guildID, userID, roleID string) error {
-	return b.DG.GuildMemberRoleRemove(guildID, userID, roleID)
+// GuildMemberRoleAdd adds the specified role to a given member
+//  guildID   : The ID of a Guild.
+//  userID    : The ID of a User.
+//  roleID 	  : The ID of a Role to be assigned to the user.
+func (b *Bot) GuildMemberRoleAdd(guildID, userID interface{}, roleID string) error {
+	gid, err := b.GuildID(guildID)
+	if err != nil {
+		return err
+	}
+
+	uid, err := b.UserID(userID)
+	if err != nil {
+		return err
+	}
+
+	return b.DG.GuildMemberRoleAdd(gid, uid, roleID)
+}
+
+// GuildMemberRoleAddByName adds a role to the specified guild member
+func (b *Bot) GuildMemberRoleAddByName(guildID, userID interface{}, name string) error {
+	guild, err := b.Guild(guildID)
+	if err != nil {
+		return err
+	}
+
+	uid, err := b.UserID(userID)
+	if err != nil {
+		return err
+	}
+
+	for _, v := range guild.Roles {
+		if v.Name == name {
+			return b.DG.GuildMemberRoleAdd(guild.ID, uid, v.ID)
+		}
+	}
+
+	return ErrNotFound
+}
+
+// GuildMemberRoleAddByNames ...
+func (b *Bot) GuildMemberRoleAddByNames(guildID, userID interface{}, names ...string) (err error) {
+	guild, err := b.Guild(guildID)
+	if err != nil {
+		return
+	}
+
+	uid, err := b.UserID(userID)
+	if err != nil {
+		return
+	}
+
+	for _, name := range names {
+		err = b.GuildMemberRoleAddByName(guild, uid, name)
+	}
+	return
+}
+
+// GuildMemberRoleRemove removes the specified role to a given member
+//  guildID   : The ID of a Guild.
+//  userID    : The ID of a User.
+//  roleID 	  : The ID of a Role to be removed from the user.
+func (b *Bot) GuildMemberRoleRemove(guildID, userID interface{}, roleID string) error {
+	gid, err := b.GuildID(guildID)
+	if err != nil {
+		return err
+	}
+
+	uid, err := b.UserID(userID)
+	if err != nil {
+		return err
+	}
+
+	return b.DG.GuildMemberRoleRemove(gid, uid, roleID)
 }
 
 // GuildMemberRoleRemoveByName removes a role from a member by name
-func (b *Bot) GuildMemberRoleRemoveByName(guildID, userID, rolename string) error {
-	memberRoles, err := b.GuildMemberRoles(guildID, userID)
+func (b *Bot) GuildMemberRoleRemoveByName(guildID, userID interface{}, rolename string) error {
+	gid, err := b.GuildID(guildID)
+	if err != nil {
+		return err
+	}
+
+	uid, err := b.UserID(userID)
+	if err != nil {
+		return err
+	}
+
+	memberRoles, err := b.GuildMemberRoles(gid, uid)
 	if err != nil {
 		return err
 	}
 
 	for _, v := range memberRoles {
 		if v.Name == rolename {
-			return b.GuildMemberRoleRemove(guildID, userID, v.ID)
+			return b.GuildMemberRoleRemove(gid, uid, v.ID)
 		}
 	}
 
@@ -532,9 +613,19 @@ func (b *Bot) GuildMemberRoleRemoveByName(guildID, userID, rolename string) erro
 }
 
 // GuildMemberRolesRemoveByName removes a list of roles by name from a guild member
-func (b *Bot) GuildMemberRolesRemoveByName(guildID, userID string, rolenames ...string) (err error) {
+func (b *Bot) GuildMemberRolesRemoveByName(guildID, userID interface{}, rolenames ...string) (err error) {
+	gid, err := b.GuildID(guildID)
+	if err != nil {
+		return err
+	}
+
+	uid, err := b.UserID(userID)
+	if err != nil {
+		return err
+	}
+
 	for _, rolename := range rolenames {
-		err = b.GuildMemberRoleRemoveByName(guildID, userID, rolename)
+		err = b.GuildMemberRoleRemoveByName(gid, uid, rolename)
 	}
 	return
 }
