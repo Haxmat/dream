@@ -530,6 +530,7 @@ type RoleSettings struct {
 }
 
 // GuildRoleCreate creates a role and edits it with the given GuildRoleSettings
+// Struct requires paramater [GuildID] to be set
 func (b *Bot) GuildRoleCreate(settings RoleSettings) (*discordgo.Role, error) {
 	role, err := b.DG.GuildRoleCreate(settings.GuildID)
 	if err != nil {
@@ -545,12 +546,54 @@ func (b *Bot) GuildRoleCreate(settings RoleSettings) (*discordgo.Role, error) {
 }
 
 // GuildRoleEdit edit edits the role in the given guild with 'settings'
+// Struct requires parameters [GuildID] [RoleID] to be set.
 func (b *Bot) GuildRoleEdit(settings RoleSettings) (*discordgo.Role, error) {
 	return b.DG.GuildRoleEdit(
 		settings.GuildID, settings.RoleID,
 		settings.Name, settings.Color, settings.Hoist,
 		settings.Perm, settings.Mention,
 	)
+}
+
+// GuildRoleDelete deletes a role from a guild
+func (b *Bot) GuildRoleDelete(i interface{}, roleID string) error {
+	guild, err := b.Guild(i)
+	if err != nil {
+		return err
+	}
+
+	return b.DG.GuildRoleDelete(guild.ID, roleID)
+}
+
+// GuildRoleDeleteByName deletes a role from the guild by name.
+// The first argument will be used to obtain the Guild.
+func (b *Bot) GuildRoleDeleteByName(i interface{}, name string) error {
+	guild, err := b.Guild(i)
+	if err != nil {
+		return err
+	}
+
+	for _, v := range guild.Roles {
+		if v.Name == name {
+			return b.DG.GuildRoleDelete(guild.ID, v.ID)
+		}
+	}
+
+	return ErrNotFound
+}
+
+// GuildRoleDeleteByNames deletes multiple roles from the guild by name
+func (b *Bot) GuildRoleDeleteByNames(i interface{}, names ...string) (err error) {
+	guild, err := b.Guild(i)
+	if err != nil {
+		return
+	}
+
+	for _, v := range names {
+		err = b.GuildRoleDeleteByName(guild, v)
+	}
+
+	return
 }
 
 // SendMessage is a convenience method for sending messages to a channel
