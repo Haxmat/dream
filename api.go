@@ -344,6 +344,8 @@ func (b *Bot) Guild(i interface{}) (*discordgo.Guild, error) {
 	return guild, nil
 }
 
+// TODO Rework GuildPresence
+
 // GuildPresence attempts to first find a guildMember object from the supplied arguments. If a member is found,
 // It uses the members guildID and userID.
 func (b *Bot) GuildPresence(i ...interface{}) (*discordgo.Presence, error) {
@@ -396,7 +398,7 @@ func (b *Bot) GuildPresence(i ...interface{}) (*discordgo.Presence, error) {
 		return p, nil
 	}
 
-	return nil, errors.New("Presence not found")
+	return nil, ErrNotFound
 }
 
 // GuildVoiceConnection returns the voice connection object for the given guild
@@ -433,11 +435,11 @@ func (b *Bot) GuildMember(i ...interface{}) (*discordgo.Member, error) {
 	if len(i) == 1 {
 		// Attempt to get both the userID and the guildid
 		// From the first argument
-		userid, err = b.UserID(i[0])
+		guildid, err = b.GuildID(i[0])
 		if err != nil {
 			return nil, err
 		}
-		guildid, err = b.GuildID(i[0])
+		userid, err = b.UserID(i[0])
 		if err != nil {
 			return nil, err
 		}
