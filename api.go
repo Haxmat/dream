@@ -450,7 +450,7 @@ func (b *Bot) GuildMember(i ...interface{}) (*discordgo.Member, error) {
 			return nil, err
 		}
 
-		userid, err = b.UserID(i[0])
+		userid, err = b.UserID(i[1])
 		if err != nil {
 			return nil, err
 		}
