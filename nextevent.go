@@ -2,7 +2,6 @@ package dream
 
 import (
 	"github.com/Necroforger/discordgo"
-	"sync"
 )
 
 // -------------------------------------
@@ -11,561 +10,217 @@ import (
 
 // NextChannelCreate returns the next ChannelCreate event
 func (b *Bot) NextChannelCreate() *discordgo.ChannelCreate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.ChannelCreate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.ChannelCreate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextChannelCreateC()
 }
 
 // NextChannelDelete returns the next ChannelDelete event
 func (b *Bot) NextChannelDelete() *discordgo.ChannelDelete {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.ChannelDelete
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.ChannelDelete) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextChannelDeleteC()
 }
 
 // NextChannelPinsUpdate returns the next ChannelPinsUpdate event
 func (b *Bot) NextChannelPinsUpdate() *discordgo.ChannelPinsUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.ChannelPinsUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.ChannelPinsUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextChannelPinsUpdateC()
 }
 
 // NextChannelUpdate returns the next ChannelUpdate event
 func (b *Bot) NextChannelUpdate() *discordgo.ChannelUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.ChannelUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.ChannelUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextChannelUpdateC()
 }
 
 // NextConnect returns the next Connect event
 func (b *Bot) NextConnect() *discordgo.Connect {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.Connect
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Connect) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextConnectC()
 }
 
 // NextDisconnect returns the next Disconnect event
 func (b *Bot) NextDisconnect() *discordgo.Disconnect {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.Disconnect
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Disconnect) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextDisconnectC()
 }
 
 // NextEvent returns the next Event event
 func (b *Bot) NextEvent() *discordgo.Event {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.Event
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Event) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextEventC()
 }
 
 // NextGuildBanAdd returns the next GuildBanAdd event
 func (b *Bot) NextGuildBanAdd() *discordgo.GuildBanAdd {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.GuildBanAdd
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildBanAdd) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextGuildBanAddC()
 }
 
 // NextGuildBanRemove returns the next GuildBanRemove event
 func (b *Bot) NextGuildBanRemove() *discordgo.GuildBanRemove {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.GuildBanRemove
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildBanRemove) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextGuildBanRemoveC()
 }
 
 // NextGuildCreate returns the next GuildCreate event
 func (b *Bot) NextGuildCreate() *discordgo.GuildCreate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.GuildCreate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildCreate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextGuildCreateC()
 }
 
 // NextGuildDelete returns the next GuildDelete event
 func (b *Bot) NextGuildDelete() *discordgo.GuildDelete {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.GuildDelete
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildDelete) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextGuildDeleteC()
 }
 
 // NextGuildEmojisUpdate returns the next GuildEmojisUpdate event
 func (b *Bot) NextGuildEmojisUpdate() *discordgo.GuildEmojisUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.GuildEmojisUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildEmojisUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextGuildEmojisUpdateC()
 }
 
 // NextGuildIntegrationsUpdate returns the next GuildIntegrationsUpdate event
 func (b *Bot) NextGuildIntegrationsUpdate() *discordgo.GuildIntegrationsUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.GuildIntegrationsUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildIntegrationsUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextGuildIntegrationsUpdateC()
 }
 
 // NextGuildMemberAdd returns the next GuildMemberAdd event
 func (b *Bot) NextGuildMemberAdd() *discordgo.GuildMemberAdd {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.GuildMemberAdd
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildMemberAdd) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextGuildMemberAddC()
 }
 
 // NextGuildMemberRemove returns the next GuildMemberRemove event
 func (b *Bot) NextGuildMemberRemove() *discordgo.GuildMemberRemove {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.GuildMemberRemove
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildMemberRemove) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextGuildMemberRemoveC()
 }
 
 // NextGuildMemberUpdate returns the next GuildMemberUpdate event
 func (b *Bot) NextGuildMemberUpdate() *discordgo.GuildMemberUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.GuildMemberUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildMemberUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextGuildMemberUpdateC()
 }
 
 // NextGuildMembersChunk returns the next GuildMembersChunk event
 func (b *Bot) NextGuildMembersChunk() *discordgo.GuildMembersChunk {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.GuildMembersChunk
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildMembersChunk) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextGuildMembersChunkC()
 }
 
 // NextGuildRoleCreate returns the next GuildRoleCreate event
 func (b *Bot) NextGuildRoleCreate() *discordgo.GuildRoleCreate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.GuildRoleCreate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildRoleCreate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextGuildRoleCreateC()
 }
 
 // NextGuildRoleDelete returns the next GuildRoleDelete event
 func (b *Bot) NextGuildRoleDelete() *discordgo.GuildRoleDelete {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.GuildRoleDelete
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildRoleDelete) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextGuildRoleDeleteC()
 }
 
 // NextGuildRoleUpdate returns the next GuildRoleUpdate event
 func (b *Bot) NextGuildRoleUpdate() *discordgo.GuildRoleUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.GuildRoleUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildRoleUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextGuildRoleUpdateC()
 }
 
 // NextGuildUpdate returns the next GuildUpdate event
 func (b *Bot) NextGuildUpdate() *discordgo.GuildUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.GuildUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextGuildUpdateC()
 }
 
 // NextMessageAck returns the next MessageAck event
 func (b *Bot) NextMessageAck() *discordgo.MessageAck {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.MessageAck
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageAck) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextMessageAckC()
 }
 
 // NextMessageCreate returns the next MessageCreate event
 func (b *Bot) NextMessageCreate() *discordgo.MessageCreate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.MessageCreate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageCreate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextMessageCreateC()
 }
 
 // NextMessageDelete returns the next MessageDelete event
 func (b *Bot) NextMessageDelete() *discordgo.MessageDelete {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.MessageDelete
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageDelete) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextMessageDeleteC()
 }
 
 // NextMessageDeleteBulk returns the next MessageDeleteBulk event
 func (b *Bot) NextMessageDeleteBulk() *discordgo.MessageDeleteBulk {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.MessageDeleteBulk
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageDeleteBulk) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextMessageDeleteBulkC()
 }
 
 // NextMessageReactionAdd returns the next MessageReactionAdd event
 func (b *Bot) NextMessageReactionAdd() *discordgo.MessageReactionAdd {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.MessageReactionAdd
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageReactionAdd) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextMessageReactionAddC()
 }
 
 // NextMessageReactionRemove returns the next MessageReactionRemove event
 func (b *Bot) NextMessageReactionRemove() *discordgo.MessageReactionRemove {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.MessageReactionRemove
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageReactionRemove) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextMessageReactionRemoveC()
 }
 
 // NextMessageReactionRemoveAll returns the next MessageReactionRemoveAll event
 func (b *Bot) NextMessageReactionRemoveAll() *discordgo.MessageReactionRemoveAll {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.MessageReactionRemoveAll
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageReactionRemoveAll) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextMessageReactionRemoveAllC()
 }
 
 // NextMessageUpdate returns the next MessageUpdate event
 func (b *Bot) NextMessageUpdate() *discordgo.MessageUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.MessageUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextMessageUpdateC()
 }
 
 // NextPresenceUpdate returns the next PresenceUpdate event
 func (b *Bot) NextPresenceUpdate() *discordgo.PresenceUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.PresenceUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.PresenceUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextPresenceUpdateC()
 }
 
 // NextPresencesReplace returns the next PresencesReplace event
 func (b *Bot) NextPresencesReplace() *discordgo.PresencesReplace {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.PresencesReplace
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.PresencesReplace) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextPresencesReplaceC()
 }
 
 // NextRateLimit returns the next RateLimit event
 func (b *Bot) NextRateLimit() *discordgo.RateLimit {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.RateLimit
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.RateLimit) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextRateLimitC()
 }
 
 // NextReady returns the next Ready event
 func (b *Bot) NextReady() *discordgo.Ready {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.Ready
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Ready) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextReadyC()
 }
 
 // NextRelationshipAdd returns the next RelationshipAdd event
 func (b *Bot) NextRelationshipAdd() *discordgo.RelationshipAdd {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.RelationshipAdd
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.RelationshipAdd) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextRelationshipAddC()
 }
 
 // NextRelationshipRemove returns the next RelationshipRemove event
 func (b *Bot) NextRelationshipRemove() *discordgo.RelationshipRemove {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.RelationshipRemove
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.RelationshipRemove) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextRelationshipRemoveC()
 }
 
 // NextResumed returns the next Resumed event
 func (b *Bot) NextResumed() *discordgo.Resumed {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.Resumed
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Resumed) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextResumedC()
 }
 
 // NextTypingStart returns the next TypingStart event
 func (b *Bot) NextTypingStart() *discordgo.TypingStart {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.TypingStart
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.TypingStart) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextTypingStartC()
 }
 
 // NextUserGuildSettingsUpdate returns the next UserGuildSettingsUpdate event
 func (b *Bot) NextUserGuildSettingsUpdate() *discordgo.UserGuildSettingsUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.UserGuildSettingsUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.UserGuildSettingsUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextUserGuildSettingsUpdateC()
 }
 
 // NextUserNoteUpdate returns the next UserNoteUpdate event
 func (b *Bot) NextUserNoteUpdate() *discordgo.UserNoteUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.UserNoteUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.UserNoteUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextUserNoteUpdateC()
 }
 
 // NextUserSettingsUpdate returns the next UserSettingsUpdate event
 func (b *Bot) NextUserSettingsUpdate() *discordgo.UserSettingsUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.UserSettingsUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.UserSettingsUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextUserSettingsUpdateC()
 }
 
 // NextUserUpdate returns the next UserUpdate event
 func (b *Bot) NextUserUpdate() *discordgo.UserUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.UserUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.UserUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextUserUpdateC()
 }
 
 // NextVoiceServerUpdate returns the next VoiceServerUpdate event
 func (b *Bot) NextVoiceServerUpdate() *discordgo.VoiceServerUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.VoiceServerUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.VoiceServerUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextVoiceServerUpdateC()
 }
 
 // NextVoiceStateUpdate returns the next VoiceStateUpdate event
 func (b *Bot) NextVoiceStateUpdate() *discordgo.VoiceStateUpdate {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var event *discordgo.VoiceStateUpdate
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.VoiceStateUpdate) {
-		event = e
-		wg.Done()
-	})
-	wg.Wait()
-	return event
+	return <-b.NextVoiceStateUpdateC()
 }
 
 // NextChannelCreateC returns a channel for the next ChannelCreate event
