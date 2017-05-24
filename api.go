@@ -168,7 +168,7 @@ func (b *Bot) ChannelVoiceJoin(guildID, channelID string, mute, deaf bool) (*dis
 	return vc, nil
 }
 
-// UserVoiceState ...
+// UserVoiceState finds a user's voice state from the session
 func (b *Bot) UserVoiceState(userID string) (*discordgo.VoiceState, error) {
 
 	for _, v := range b.DG.State.Guilds {
