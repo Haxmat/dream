@@ -1,7 +1,6 @@
 package dream
 
 import (
-	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -12,9 +11,6 @@ import (
 
 //Generate the AddHandler and AddHandlerOnce methods
 //go:generate go run tools/addhandlers/main.go
-
-//Generate the listener functions for logging.
-//go:generate go run tools/listeners/main.go
 
 //Generate nextEvent functions
 //go:generate go run tools/nextevent/main.go
@@ -47,16 +43,11 @@ type Config struct {
 	//DcaRsPath is the location of the dca-rs executeable for encoding opus
 	// Default: "./dca-rs"
 	DcaRsPath string
-
-	// LogConfig is the configuration for what events dream should be logging.
-	// Dream encodes any events requested from the LogConfig and outputs them to Bot.LogOutput
-	LogConfig LoggingConfig
 }
 
 //NewConfig returns the default configuration options for the bot
 func NewConfig() Config {
 	return Config{
-		LogConfig:  LoggingConfig{},
 		FfmpegPath: "ffmpeg",
 		DcaRsPath:  "./dca-rs",
 	}
@@ -107,31 +98,11 @@ func (b *Bot) audioDispatcher(guildID string) (*AudioDispatcher, error) {
 	return nil, ErrNotFound
 }
 
-// Adds the bot's default message handlers
-func (b *Bot) addHandlers() {
-	//Add the bot's build in handlers
-	b.DG.AddHandler(b.onReady)
-
-	//Add the listeners that the LogConfig requests
-	b.registerListeners(b.Config.LogConfig)
-}
-
-// Open adds the bot's default handlers and begins listening for messages
+// Open begins listening for events
 func (b *Bot) Open() error {
-	b.addHandlers()
-
-	// Set the bot's default user
-	user, err := b.DG.User("@me")
-	if err != nil {
-		return err
-	}
-	if user == nil {
-		return errors.New("user object nil")
-	}
-	b.Client = user
 
 	//Connect to discord
-	err = b.DG.Open()
+	err := b.DG.Open()
 	if err != nil {
 		b.Log(0, "Error opening dream session: "+fmt.Sprint(err))
 		return err

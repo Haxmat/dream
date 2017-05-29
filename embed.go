@@ -57,6 +57,17 @@ func (e *Embed) AddField(name, value string) *Embed {
 
 }
 
+// GetField searches for a field by name and returns a pointer to a messageEmbedField if found
+// It will return nil if nothing is found.
+func (e *Embed) GetField(name string) *discordgo.MessageEmbedField {
+	for _, v := range e.Fields {
+		if v.Name == name {
+			return v
+		}
+	}
+	return nil
+}
+
 //SetFooter [Text] [iconURL]
 func (e *Embed) SetFooter(args ...string) *Embed {
 	iconURL := ""
