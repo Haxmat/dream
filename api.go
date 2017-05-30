@@ -240,7 +240,7 @@ func (b *Bot) convertToOpus(rd io.Reader) (io.Reader, error) {
 	return dcabuf, nil
 }
 
-// GuildAudioDispatcherStop stops all of a guild's currently playing audio dispatchers
+// GuildAudioDispatcherStop a guild's currently playing audio dispatchers
 func (b *Bot) GuildAudioDispatcherStop(i interface{}) error {
 	guildID, err := b.GuildID(i)
 	if err != nil {
@@ -254,6 +254,38 @@ func (b *Bot) GuildAudioDispatcherStop(i interface{}) error {
 
 	disp.Stop()
 
+	return nil
+}
+
+// GuildAudioDispatcherPause pauses the guild's currently playing audio dispatcher
+func (b *Bot) GuildAudioDispatcherPause(i interface{}) error {
+	guildID, err := b.GuildID(i)
+	if err != nil {
+		return err
+	}
+
+	disp, err := b.audioDispatcher(guildID)
+	if err != nil {
+		return err
+	}
+
+	disp.Pause()
+	return nil
+}
+
+// GuildAudioDispatcherResume resumes the guild's currently playing audio dispatcher
+func (b *Bot) GuildAudioDispatcherResume(i interface{}) error {
+	guildID, err := b.GuildID(i)
+	if err != nil {
+		return err
+	}
+
+	disp, err := b.audioDispatcher(guildID)
+	if err != nil {
+		return err
+	}
+
+	disp.Resume()
 	return nil
 }
 
