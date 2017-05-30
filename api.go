@@ -240,8 +240,8 @@ func (b *Bot) convertToOpus(rd io.Reader) (io.Reader, error) {
 	return dcabuf, nil
 }
 
-// GuildStopAudioDispatcher stops all of a guild's currently playing audio dispatchers
-func (b *Bot) GuildStopAudioDispatcher(i interface{}) error {
+// GuildAudioDispatcherStop stops all of a guild's currently playing audio dispatchers
+func (b *Bot) GuildAudioDispatcherStop(i interface{}) error {
 	guildID, err := b.GuildID(i)
 	if err != nil {
 		return err
@@ -275,7 +275,7 @@ func (b *Bot) PlayStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDisp
 	}
 
 	disp := NewAudioDispatcher(vc, opusStream)
-	b.GuildStopAudioDispatcher(vc.GuildID)
+	b.GuildAudioDispatcherStop(vc.GuildID)
 	b.addAudioDispatcher(disp)
 
 	go func() {
@@ -289,7 +289,7 @@ func (b *Bot) PlayStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDisp
 // PlayRawStream plays a direct stream
 func (b *Bot) PlayRawStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDispatcher {
 	disp := NewAudioDispatcher(vc, rd)
-	b.GuildStopAudioDispatcher(vc.GuildID)
+	b.GuildAudioDispatcherStop(vc.GuildID)
 	b.addAudioDispatcher(disp)
 
 	go func() {
