@@ -182,6 +182,21 @@ func (b *Bot) UserVoiceState(userID string) (*discordgo.VoiceState, error) {
 	return nil, errors.New("VoiceState not found")
 }
 
+// UserVoiceStateJoin joins a user's voice state channel.
+func (b *Bot) UserVoiceStateJoin(userID interface{}, mute, deaf bool) (*discordgo.VoiceConnection, error) {
+	uid, err := b.UserID(userID)
+	if err != nil {
+		return nil, err
+	}
+
+	vs, err := b.UserVoiceState(uid)
+	if err != nil {
+		return nil, err
+	}
+
+	return b.ChannelVoiceJoin(vs.GuildID, vs.ChannelID, mute, deaf)
+}
+
 // UserAvatarURL returns the URL of a User's Avatar. Sizes: 64, 128, 256, 512, 1024...
 func (b *Bot) UserAvatarURL(userID, avatarID, size string) string {
 	extension := ".jpg"
@@ -445,6 +460,16 @@ func (b *Bot) GuildVoiceConnection(i interface{}) (*discordgo.VoiceConnection, e
 	}
 
 	return nil, errors.New("Voice connection not found")
+}
+
+// GuildVoiceConnectionDisconnect finds the current guild voice connection and disconnects from it
+func (b *Bot) GuildVoiceConnectionDisconnect(guildID interface{}) error {
+	vc, err := b.GuildVoiceConnection(guildID)
+	if err != nil {
+		return err
+	}
+
+	return vc.Disconnect()
 }
 
 // GuildMember is a convenience method for fetching the member object from various sources
