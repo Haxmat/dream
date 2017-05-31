@@ -699,8 +699,6 @@ func (b *Bot) GuildMemberRolesRemoveByName(guildID, userID interface{}, rolename
 // perm      : The permissions for the role.
 // mention   : Whether this role is mentionable
 type RoleSettings struct {
-	GuildID string
-	RoleID  string
 	Name    string
 	Color   int
 	Hoist   bool
@@ -710,8 +708,8 @@ type RoleSettings struct {
 
 // GuildRoleCreate creates a role and edits it with the given GuildRoleSettings
 // Struct requires paramater [GuildID] to be set
-func (b *Bot) GuildRoleCreate(settings RoleSettings) (*discordgo.Role, error) {
-	role, err := b.DG.GuildRoleCreate(settings.GuildID)
+func (b *Bot) GuildRoleCreate(guildID string, settings RoleSettings) (*discordgo.Role, error) {
+	role, err := b.DG.GuildRoleCreate(guildID)
 	if err != nil {
 		return nil, err
 	}
@@ -720,15 +718,14 @@ func (b *Bot) GuildRoleCreate(settings RoleSettings) (*discordgo.Role, error) {
 	// for b.NextGuildRoleCreate().Role.ID != role.ID {
 	// }
 
-	settings.RoleID = role.ID
-	return b.GuildRoleEdit(settings)
+	return b.GuildRoleEdit(guildID, role.ID, settings)
 }
 
 // GuildRoleEdit edit edits the role in the given guild with 'settings'
 // Struct requires parameters [GuildID] [RoleID] to be set.
-func (b *Bot) GuildRoleEdit(settings RoleSettings) (*discordgo.Role, error) {
+func (b *Bot) GuildRoleEdit(guildID, roleID string, settings RoleSettings) (*discordgo.Role, error) {
 	return b.DG.GuildRoleEdit(
-		settings.GuildID, settings.RoleID,
+		guildID, roleID,
 		settings.Name, settings.Color, settings.Hoist,
 		settings.Perm, settings.Mention,
 	)
