@@ -31,9 +31,6 @@ type Bot struct {
 
 	// AudioDispatchers stores the Audio Dispatchers belonging to each guild
 	AudioDispatchers map[string]*AudioDispatcher
-
-	// Map of exec processes for converting audio to opus
-	Processes map[string]*Processes
 }
 
 //Config represents dream's configuration
