@@ -20,6 +20,13 @@ const (
 	audioResume
 )
 
+// Error values
+var (
+	ErrVoiceConnectionNil = errors.New("err: voice connection is nil")
+	ErrAlreadyPlaying     = errors.New("err: already playing")
+	ErrControlChannel     = errors.New("err: Reading from control channel failed")
+)
+
 var (
 	//ErrTimedOut is returned when an opus packet took too long to send
 	ErrTimedOut = errors.New("timed out")
@@ -97,16 +104,17 @@ func (a *AudioDispatcher) Stop() {
 // Wait Waits for the player to finish
 func (a *AudioDispatcher) Wait() {
 	for !a.stopped {
+		time.Sleep(time.Millisecond * 500)
 	}
 }
 
 //Start starts playing audio on the given voice channel
-func (a *AudioDispatcher) Start() {
+func (a *AudioDispatcher) Start() (err error) {
 	if a.VC == nil {
-		return
+		return ErrVoiceConnectionNil
 	}
 	if a.playing {
-		return
+		return ErrAlreadyPlaying
 	}
 
 	a.Lock()
@@ -148,12 +156,12 @@ func (a *AudioDispatcher) Start() {
 					if v == audioStop {
 						startTime = startTime.Add(time.Now().Sub(pausedStart))
 						updateDuration()
-						return
+						return nil
 					}
 				}
 			case audioStop:
 				updateDuration()
-				return
+				return nil
 			}
 		default:
 		}
@@ -166,7 +174,7 @@ func (a *AudioDispatcher) Start() {
 		opus, err := readOpus(a.source)
 		if err != nil {
 			if err == io.ErrUnexpectedEOF || err == io.EOF {
-				return
+				return nil // This is normal, it is the end of the file
 			}
 			fmt.Println("AudioDispatcher: ", err)
 		}
@@ -175,12 +183,12 @@ func (a *AudioDispatcher) Start() {
 		case a.VC.OpusSend <- opus:
 		case <-time.After(time.Second * 1):
 			fmt.Println("AudioDispatcher: OpusSend timed out")
-			return
+			return ErrTimedOut
 		}
 
 		updateDuration()
 	}
-
+	return nil
 }
 
 func readOpus(source io.Reader) ([]byte, error) {

@@ -98,6 +98,9 @@ func (b *Bot) GuildID(i interface{}) (string, error) {
 	case *discordgo.Channel:
 		return t.GuildID, nil
 
+	case *discordgo.Guild:
+		return t.ID, nil
+
 	case *discordgo.VoiceConnection:
 		return t.GuildID, nil
 
@@ -168,7 +171,7 @@ func (b *Bot) ChannelVoiceJoin(guildID, channelID string, mute, deaf bool) (*dis
 	return vc, nil
 }
 
-// UserVoiceState finds a user's voice state from the session
+// UserVoiceState finds a user's voice state from all the guilds in the session
 func (b *Bot) UserVoiceState(userID string) (*discordgo.VoiceState, error) {
 
 	for _, v := range b.DG.State.Guilds {
@@ -222,14 +225,31 @@ func (b *Bot) UserAvatar(userID, avatarID, size string) (image.Image, error) {
 	return img, nil
 }
 
+// Processes holds the processes for converting audio to opus.
+// It is needed to kill them in the future.
+type Processes struct {
+	Ffmpeg *exec.Cmd
+	Dcars  *exec.Cmd
+}
+
+// KillAll kills all running processes
+func (p *Processes) KillAll() {
+	if p.Ffmpeg != nil {
+		p.Ffmpeg.Process.Kill()
+	}
+	if p.Dcars != nil {
+		p.Dcars.Process.Kill()
+	}
+}
+
 // convertToOpus converts the given io.Reader stream to an Opus stream
 // Using ffmpeg and dca-rs
-func (b *Bot) convertToOpus(rd io.Reader) (io.Reader, error) {
+func (b *Bot) convertToOpus(rd io.Reader) (io.Reader, *Processes, error) {
 	ffmpeg := exec.Command(b.Config.FfmpegPath, "-i", "pipe:0", "-f", "s16le", "-ar", "48000", "-ac", "2", "pipe:1")
 	ffmpeg.Stdin = rd
 	ffmpegout, err := ffmpeg.StdoutPipe()
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	dca := exec.Command(b.Config.DcaRsPath, "--raw", "-i", "pipe:0")
@@ -237,22 +257,26 @@ func (b *Bot) convertToOpus(rd io.Reader) (io.Reader, error) {
 	dcaout, err := dca.StdoutPipe()
 	dcabuf := bufio.NewReaderSize(dcaout, 1024)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	err = ffmpeg.Start()
 	if err != nil {
 		b.Log("convertToOpus ffmpeg err: ", err)
-		return nil, err
+		return nil, nil, err
 	}
 
 	err = dca.Start()
 	if err != nil {
 		b.Log("convertToOpus: dca-rs err: ", err)
-		return nil, err
+		return nil, nil, err
 	}
 
-	return dcabuf, nil
+	processes := &Processes{
+		Ffmpeg: ffmpeg,
+		Dcars:  dca,
+	}
+	return dcabuf, processes, nil
 }
 
 // GuildAudioDispatcherStop a guild's currently playing audio dispatchers
@@ -316,7 +340,7 @@ func (b *Bot) GuildAudioDispatcher(i interface{}) (*AudioDispatcher, error) {
 
 // PlayStream plays an audio stream from the given io reader and uses ffmpeg to convert to a suitable format
 func (b *Bot) PlayStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDispatcher {
-	opusStream, err := b.convertToOpus(rd)
+	opusStream, procs, err := b.convertToOpus(rd)
 	if err != nil {
 		return nil
 	}
@@ -327,7 +351,7 @@ func (b *Bot) PlayStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDisp
 
 	go func() {
 		disp.Start()
-		// b.removeAudioDispatcher(disp.GuildID)
+		procs.KillAll()
 	}()
 
 	return disp

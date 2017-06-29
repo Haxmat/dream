@@ -70,8 +70,8 @@ func (e *Embed) GetField(name string) *discordgo.MessageEmbedField {
 
 //SetFooter [Text] [iconURL]
 func (e *Embed) SetFooter(args ...string) *Embed {
-	iconURL := ""
 	text := ""
+	iconURL := ""
 	proxyURL := ""
 
 	switch {

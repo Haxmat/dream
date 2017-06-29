@@ -31,6 +31,9 @@ type Bot struct {
 
 	// AudioDispatchers stores the Audio Dispatchers belonging to each guild
 	AudioDispatchers map[string]*AudioDispatcher
+
+	// Map of exec processes for converting audio to opus
+	Processes map[string]*Processes
 }
 
 //Config represents dream's configuration
@@ -58,6 +61,7 @@ func New(conf Config, args ...interface{}) (*Bot, error) {
 	bot := &Bot{}
 	bot.Config = conf
 	bot.AudioDispatchers = map[string]*AudioDispatcher{}
+	bot.Processes = map[string]*Processes{}
 	bot.LogOutput = os.Stdout
 
 	session, err := discordgo.New(args...)
