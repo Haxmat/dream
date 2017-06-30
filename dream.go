@@ -58,7 +58,6 @@ func New(conf Config, args ...interface{}) (*Bot, error) {
 	bot := &Bot{}
 	bot.Config = conf
 	bot.AudioDispatchers = map[string]*AudioDispatcher{}
-	bot.Processes = map[string]*Processes{}
 	bot.LogOutput = os.Stdout
 
 	session, err := discordgo.New(args...)
