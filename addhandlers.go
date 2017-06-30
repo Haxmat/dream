@@ -8,483 +8,483 @@ import (
 // AUTO GENERATED CODE. DO NOT EDIT
 // --------------------------------------
 
-//AddHandler wraps the discordgo addhandler function to return a Bot object.
-func (b *Bot) AddHandler(i interface{}) {
+//AddHandler wraps the discordgo addhandler function to return a Session object.
+func (s *Session) AddHandler(i interface{}) {
 	switch t := i.(type) {
 
 	// ChannelCreate
-	case func(*Bot, *discordgo.ChannelCreate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.ChannelCreate) {
-			t(b, data)
+	case func(*Session, *discordgo.ChannelCreate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.ChannelCreate) {
+			t(s, data)
 		})
 
 	// ChannelDelete
-	case func(*Bot, *discordgo.ChannelDelete):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.ChannelDelete) {
-			t(b, data)
+	case func(*Session, *discordgo.ChannelDelete):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.ChannelDelete) {
+			t(s, data)
 		})
 
 	// ChannelPinsUpdate
-	case func(*Bot, *discordgo.ChannelPinsUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.ChannelPinsUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.ChannelPinsUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.ChannelPinsUpdate) {
+			t(s, data)
 		})
 
 	// ChannelUpdate
-	case func(*Bot, *discordgo.ChannelUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.ChannelUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.ChannelUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.ChannelUpdate) {
+			t(s, data)
 		})
 
 	// GuildBanAdd
-	case func(*Bot, *discordgo.GuildBanAdd):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.GuildBanAdd) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildBanAdd):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.GuildBanAdd) {
+			t(s, data)
 		})
 
 	// GuildBanRemove
-	case func(*Bot, *discordgo.GuildBanRemove):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.GuildBanRemove) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildBanRemove):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.GuildBanRemove) {
+			t(s, data)
 		})
 
 	// GuildCreate
-	case func(*Bot, *discordgo.GuildCreate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.GuildCreate) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildCreate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.GuildCreate) {
+			t(s, data)
 		})
 
 	// GuildDelete
-	case func(*Bot, *discordgo.GuildDelete):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.GuildDelete) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildDelete):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.GuildDelete) {
+			t(s, data)
 		})
 
 	// GuildEmojisUpdate
-	case func(*Bot, *discordgo.GuildEmojisUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.GuildEmojisUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildEmojisUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.GuildEmojisUpdate) {
+			t(s, data)
 		})
 
 	// GuildIntegrationsUpdate
-	case func(*Bot, *discordgo.GuildIntegrationsUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.GuildIntegrationsUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildIntegrationsUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.GuildIntegrationsUpdate) {
+			t(s, data)
 		})
 
 	// GuildMemberAdd
-	case func(*Bot, *discordgo.GuildMemberAdd):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.GuildMemberAdd) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildMemberAdd):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.GuildMemberAdd) {
+			t(s, data)
 		})
 
 	// GuildMemberRemove
-	case func(*Bot, *discordgo.GuildMemberRemove):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.GuildMemberRemove) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildMemberRemove):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.GuildMemberRemove) {
+			t(s, data)
 		})
 
 	// GuildMemberUpdate
-	case func(*Bot, *discordgo.GuildMemberUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.GuildMemberUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildMemberUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.GuildMemberUpdate) {
+			t(s, data)
 		})
 
 	// GuildMembersChunk
-	case func(*Bot, *discordgo.GuildMembersChunk):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.GuildMembersChunk) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildMembersChunk):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.GuildMembersChunk) {
+			t(s, data)
 		})
 
 	// GuildRoleCreate
-	case func(*Bot, *discordgo.GuildRoleCreate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.GuildRoleCreate) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildRoleCreate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.GuildRoleCreate) {
+			t(s, data)
 		})
 
 	// GuildRoleDelete
-	case func(*Bot, *discordgo.GuildRoleDelete):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.GuildRoleDelete) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildRoleDelete):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.GuildRoleDelete) {
+			t(s, data)
 		})
 
 	// GuildRoleUpdate
-	case func(*Bot, *discordgo.GuildRoleUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.GuildRoleUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildRoleUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.GuildRoleUpdate) {
+			t(s, data)
 		})
 
 	// GuildUpdate
-	case func(*Bot, *discordgo.GuildUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.GuildUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.GuildUpdate) {
+			t(s, data)
 		})
 
 	// MessageAck
-	case func(*Bot, *discordgo.MessageAck):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.MessageAck) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageAck):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.MessageAck) {
+			t(s, data)
 		})
 
 	// MessageCreate
-	case func(*Bot, *discordgo.MessageCreate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.MessageCreate) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageCreate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.MessageCreate) {
+			t(s, data)
 		})
 
 	// MessageDelete
-	case func(*Bot, *discordgo.MessageDelete):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.MessageDelete) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageDelete):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.MessageDelete) {
+			t(s, data)
 		})
 
 	// MessageDeleteBulk
-	case func(*Bot, *discordgo.MessageDeleteBulk):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.MessageDeleteBulk) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageDeleteBulk):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.MessageDeleteBulk) {
+			t(s, data)
 		})
 
 	// MessageReactionAdd
-	case func(*Bot, *discordgo.MessageReactionAdd):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.MessageReactionAdd) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageReactionAdd):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.MessageReactionAdd) {
+			t(s, data)
 		})
 
 	// MessageReactionRemove
-	case func(*Bot, *discordgo.MessageReactionRemove):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.MessageReactionRemove) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageReactionRemove):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.MessageReactionRemove) {
+			t(s, data)
 		})
 
 	// MessageReactionRemoveAll
-	case func(*Bot, *discordgo.MessageReactionRemoveAll):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.MessageReactionRemoveAll) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageReactionRemoveAll):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.MessageReactionRemoveAll) {
+			t(s, data)
 		})
 
 	// MessageUpdate
-	case func(*Bot, *discordgo.MessageUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.MessageUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.MessageUpdate) {
+			t(s, data)
 		})
 
 	// PresenceUpdate
-	case func(*Bot, *discordgo.PresenceUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.PresenceUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.PresenceUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.PresenceUpdate) {
+			t(s, data)
 		})
 
 	// PresencesReplace
-	case func(*Bot, *discordgo.PresencesReplace):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.PresencesReplace) {
-			t(b, data)
+	case func(*Session, *discordgo.PresencesReplace):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.PresencesReplace) {
+			t(s, data)
 		})
 
 	// Ready
-	case func(*Bot, *discordgo.Ready):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.Ready) {
-			t(b, data)
+	case func(*Session, *discordgo.Ready):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.Ready) {
+			t(s, data)
 		})
 
 	// RelationshipAdd
-	case func(*Bot, *discordgo.RelationshipAdd):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.RelationshipAdd) {
-			t(b, data)
+	case func(*Session, *discordgo.RelationshipAdd):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.RelationshipAdd) {
+			t(s, data)
 		})
 
 	// RelationshipRemove
-	case func(*Bot, *discordgo.RelationshipRemove):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.RelationshipRemove) {
-			t(b, data)
+	case func(*Session, *discordgo.RelationshipRemove):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.RelationshipRemove) {
+			t(s, data)
 		})
 
 	// Resumed
-	case func(*Bot, *discordgo.Resumed):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.Resumed) {
-			t(b, data)
+	case func(*Session, *discordgo.Resumed):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.Resumed) {
+			t(s, data)
 		})
 
 	// TypingStart
-	case func(*Bot, *discordgo.TypingStart):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.TypingStart) {
-			t(b, data)
+	case func(*Session, *discordgo.TypingStart):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.TypingStart) {
+			t(s, data)
 		})
 
 	// UserGuildSettingsUpdate
-	case func(*Bot, *discordgo.UserGuildSettingsUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.UserGuildSettingsUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.UserGuildSettingsUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.UserGuildSettingsUpdate) {
+			t(s, data)
 		})
 
 	// UserNoteUpdate
-	case func(*Bot, *discordgo.UserNoteUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.UserNoteUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.UserNoteUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.UserNoteUpdate) {
+			t(s, data)
 		})
 
 	// UserSettingsUpdate
-	case func(*Bot, *discordgo.UserSettingsUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.UserSettingsUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.UserSettingsUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.UserSettingsUpdate) {
+			t(s, data)
 		})
 
 	// UserUpdate
-	case func(*Bot, *discordgo.UserUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.UserUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.UserUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.UserUpdate) {
+			t(s, data)
 		})
 
 	// VoiceServerUpdate
-	case func(*Bot, *discordgo.VoiceServerUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.VoiceServerUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.VoiceServerUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.VoiceServerUpdate) {
+			t(s, data)
 		})
 
 	// VoiceStateUpdate
-	case func(*Bot, *discordgo.VoiceStateUpdate):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.VoiceStateUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.VoiceStateUpdate):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.VoiceStateUpdate) {
+			t(s, data)
 		})
 
 	}
 }
 
-//AddHandlerOnce wraps the discordgo AddHandlerOnce function to return a Bot object
-func (b *Bot) AddHandlerOnce(i interface{}) {
+//AddHandlerOnce wraps the discordgo AddHandlerOnce function to return a Session object
+func (s *Session) AddHandlerOnce(i interface{}) {
 	switch t := i.(type) {
 
 	// ChannelCreate
-	case func(*Bot, *discordgo.ChannelCreate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.ChannelCreate) {
-			t(b, data)
+	case func(*Session, *discordgo.ChannelCreate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.ChannelCreate) {
+			t(s, data)
 		})
 
 	// ChannelDelete
-	case func(*Bot, *discordgo.ChannelDelete):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.ChannelDelete) {
-			t(b, data)
+	case func(*Session, *discordgo.ChannelDelete):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.ChannelDelete) {
+			t(s, data)
 		})
 
 	// ChannelPinsUpdate
-	case func(*Bot, *discordgo.ChannelPinsUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.ChannelPinsUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.ChannelPinsUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.ChannelPinsUpdate) {
+			t(s, data)
 		})
 
 	// ChannelUpdate
-	case func(*Bot, *discordgo.ChannelUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.ChannelUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.ChannelUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.ChannelUpdate) {
+			t(s, data)
 		})
 
 	// GuildBanAdd
-	case func(*Bot, *discordgo.GuildBanAdd):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.GuildBanAdd) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildBanAdd):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.GuildBanAdd) {
+			t(s, data)
 		})
 
 	// GuildBanRemove
-	case func(*Bot, *discordgo.GuildBanRemove):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.GuildBanRemove) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildBanRemove):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.GuildBanRemove) {
+			t(s, data)
 		})
 
 	// GuildCreate
-	case func(*Bot, *discordgo.GuildCreate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.GuildCreate) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildCreate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.GuildCreate) {
+			t(s, data)
 		})
 
 	// GuildDelete
-	case func(*Bot, *discordgo.GuildDelete):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.GuildDelete) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildDelete):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.GuildDelete) {
+			t(s, data)
 		})
 
 	// GuildEmojisUpdate
-	case func(*Bot, *discordgo.GuildEmojisUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.GuildEmojisUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildEmojisUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.GuildEmojisUpdate) {
+			t(s, data)
 		})
 
 	// GuildIntegrationsUpdate
-	case func(*Bot, *discordgo.GuildIntegrationsUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.GuildIntegrationsUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildIntegrationsUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.GuildIntegrationsUpdate) {
+			t(s, data)
 		})
 
 	// GuildMemberAdd
-	case func(*Bot, *discordgo.GuildMemberAdd):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.GuildMemberAdd) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildMemberAdd):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.GuildMemberAdd) {
+			t(s, data)
 		})
 
 	// GuildMemberRemove
-	case func(*Bot, *discordgo.GuildMemberRemove):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.GuildMemberRemove) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildMemberRemove):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.GuildMemberRemove) {
+			t(s, data)
 		})
 
 	// GuildMemberUpdate
-	case func(*Bot, *discordgo.GuildMemberUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.GuildMemberUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildMemberUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.GuildMemberUpdate) {
+			t(s, data)
 		})
 
 	// GuildMembersChunk
-	case func(*Bot, *discordgo.GuildMembersChunk):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.GuildMembersChunk) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildMembersChunk):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.GuildMembersChunk) {
+			t(s, data)
 		})
 
 	// GuildRoleCreate
-	case func(*Bot, *discordgo.GuildRoleCreate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.GuildRoleCreate) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildRoleCreate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.GuildRoleCreate) {
+			t(s, data)
 		})
 
 	// GuildRoleDelete
-	case func(*Bot, *discordgo.GuildRoleDelete):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.GuildRoleDelete) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildRoleDelete):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.GuildRoleDelete) {
+			t(s, data)
 		})
 
 	// GuildRoleUpdate
-	case func(*Bot, *discordgo.GuildRoleUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.GuildRoleUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildRoleUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.GuildRoleUpdate) {
+			t(s, data)
 		})
 
 	// GuildUpdate
-	case func(*Bot, *discordgo.GuildUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.GuildUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.GuildUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.GuildUpdate) {
+			t(s, data)
 		})
 
 	// MessageAck
-	case func(*Bot, *discordgo.MessageAck):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.MessageAck) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageAck):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.MessageAck) {
+			t(s, data)
 		})
 
 	// MessageCreate
-	case func(*Bot, *discordgo.MessageCreate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.MessageCreate) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageCreate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.MessageCreate) {
+			t(s, data)
 		})
 
 	// MessageDelete
-	case func(*Bot, *discordgo.MessageDelete):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.MessageDelete) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageDelete):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.MessageDelete) {
+			t(s, data)
 		})
 
 	// MessageDeleteBulk
-	case func(*Bot, *discordgo.MessageDeleteBulk):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.MessageDeleteBulk) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageDeleteBulk):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.MessageDeleteBulk) {
+			t(s, data)
 		})
 
 	// MessageReactionAdd
-	case func(*Bot, *discordgo.MessageReactionAdd):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.MessageReactionAdd) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageReactionAdd):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.MessageReactionAdd) {
+			t(s, data)
 		})
 
 	// MessageReactionRemove
-	case func(*Bot, *discordgo.MessageReactionRemove):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.MessageReactionRemove) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageReactionRemove):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.MessageReactionRemove) {
+			t(s, data)
 		})
 
 	// MessageReactionRemoveAll
-	case func(*Bot, *discordgo.MessageReactionRemoveAll):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.MessageReactionRemoveAll) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageReactionRemoveAll):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.MessageReactionRemoveAll) {
+			t(s, data)
 		})
 
 	// MessageUpdate
-	case func(*Bot, *discordgo.MessageUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.MessageUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.MessageUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.MessageUpdate) {
+			t(s, data)
 		})
 
 	// PresenceUpdate
-	case func(*Bot, *discordgo.PresenceUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.PresenceUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.PresenceUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.PresenceUpdate) {
+			t(s, data)
 		})
 
 	// PresencesReplace
-	case func(*Bot, *discordgo.PresencesReplace):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.PresencesReplace) {
-			t(b, data)
+	case func(*Session, *discordgo.PresencesReplace):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.PresencesReplace) {
+			t(s, data)
 		})
 
 	// Ready
-	case func(*Bot, *discordgo.Ready):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.Ready) {
-			t(b, data)
+	case func(*Session, *discordgo.Ready):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.Ready) {
+			t(s, data)
 		})
 
 	// RelationshipAdd
-	case func(*Bot, *discordgo.RelationshipAdd):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.RelationshipAdd) {
-			t(b, data)
+	case func(*Session, *discordgo.RelationshipAdd):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.RelationshipAdd) {
+			t(s, data)
 		})
 
 	// RelationshipRemove
-	case func(*Bot, *discordgo.RelationshipRemove):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.RelationshipRemove) {
-			t(b, data)
+	case func(*Session, *discordgo.RelationshipRemove):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.RelationshipRemove) {
+			t(s, data)
 		})
 
 	// Resumed
-	case func(*Bot, *discordgo.Resumed):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.Resumed) {
-			t(b, data)
+	case func(*Session, *discordgo.Resumed):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.Resumed) {
+			t(s, data)
 		})
 
 	// TypingStart
-	case func(*Bot, *discordgo.TypingStart):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.TypingStart) {
-			t(b, data)
+	case func(*Session, *discordgo.TypingStart):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.TypingStart) {
+			t(s, data)
 		})
 
 	// UserGuildSettingsUpdate
-	case func(*Bot, *discordgo.UserGuildSettingsUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.UserGuildSettingsUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.UserGuildSettingsUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.UserGuildSettingsUpdate) {
+			t(s, data)
 		})
 
 	// UserNoteUpdate
-	case func(*Bot, *discordgo.UserNoteUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.UserNoteUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.UserNoteUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.UserNoteUpdate) {
+			t(s, data)
 		})
 
 	// UserSettingsUpdate
-	case func(*Bot, *discordgo.UserSettingsUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.UserSettingsUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.UserSettingsUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.UserSettingsUpdate) {
+			t(s, data)
 		})
 
 	// UserUpdate
-	case func(*Bot, *discordgo.UserUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.UserUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.UserUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.UserUpdate) {
+			t(s, data)
 		})
 
 	// VoiceServerUpdate
-	case func(*Bot, *discordgo.VoiceServerUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.VoiceServerUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.VoiceServerUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.VoiceServerUpdate) {
+			t(s, data)
 		})
 
 	// VoiceStateUpdate
-	case func(*Bot, *discordgo.VoiceStateUpdate):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.VoiceStateUpdate) {
-			t(b, data)
+	case func(*Session, *discordgo.VoiceStateUpdate):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.VoiceStateUpdate) {
+			t(s, data)
 		})
 
 	}

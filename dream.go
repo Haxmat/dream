@@ -1,7 +1,6 @@
 package dream
 
 import (
-	"fmt"
 	"io"
 	"os"
 	"sync"
@@ -15,8 +14,8 @@ import (
 //Generate nextEvent functions
 //go:generate go run tools/nextevent/main.go
 
-//Bot contains all information relating to dream bot.
-type Bot struct {
+//Session contains session information.
+type Session struct {
 	sync.Mutex
 
 	// LogOutput is the Writer where all the log events are sent over.
@@ -53,9 +52,9 @@ func NewConfig() Config {
 	}
 }
 
-//New returns a new Bot object.
-func New(conf Config, args ...interface{}) (*Bot, error) {
-	bot := &Bot{}
+//New returns a new Session.
+func New(conf Config, args ...interface{}) (*Session, error) {
+	bot := &Session{}
 	bot.Config = conf
 	bot.AudioDispatchers = map[string]*AudioDispatcher{}
 	bot.LogOutput = os.Stdout
@@ -69,42 +68,35 @@ func New(conf Config, args ...interface{}) (*Bot, error) {
 	return bot, nil
 }
 
-// Log prints various information to the console based on the current LogLevel
-func (b *Bot) Log(data ...interface{}) {
-	fmt.Fprintln(b.LogOutput, data...)
-}
-
-func (b *Bot) addAudioDispatcher(ad *AudioDispatcher) {
-	b.Lock()
-	b.AudioDispatchers[ad.GuildID] = ad
-	b.Unlock()
+func (s *Session) addAudioDispatcher(ad *AudioDispatcher) {
+	s.Lock()
+	s.AudioDispatchers[ad.GuildID] = ad
+	s.Unlock()
 }
 
 // removeAudioDispatcher removes the audio dispatcher from the map with ID guildID
-func (b *Bot) removeAudioDispatcher(guildID string) {
-	b.Lock()
-	delete(b.AudioDispatchers, guildID)
-	b.Unlock()
+func (s *Session) removeAudioDispatcher(guildID string) {
+	s.Lock()
+	delete(s.AudioDispatchers, guildID)
+	s.Unlock()
 }
 
 // audioDispatcher returns an audio dispatcher by guild ID
-func (b *Bot) audioDispatcher(guildID string) (*AudioDispatcher, error) {
-	b.Lock()
-	defer b.Unlock()
+func (s *Session) audioDispatcher(guildID string) (*AudioDispatcher, error) {
+	s.Lock()
+	defer s.Unlock()
 
-	if v, ok := b.AudioDispatchers[guildID]; ok {
+	if v, ok := s.AudioDispatchers[guildID]; ok {
 		return v, nil
 	}
 	return nil, ErrNotFound
 }
 
-// Open begins listening for events
-func (b *Bot) Open() error {
+// Open connects to discord websockets
+func (s *Session) Open() error {
 
-	//Connect to discord
-	err := b.DG.Open()
+	err := s.DG.Open()
 	if err != nil {
-		b.Log(0, "Error opening dream session: "+fmt.Sprint(err))
 		return err
 	}
 

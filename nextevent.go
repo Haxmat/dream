@@ -9,602 +9,602 @@ import (
 // --------------------------------------
 
 // NextChannelCreate returns the next ChannelCreate event
-func (b *Bot) NextChannelCreate() *discordgo.ChannelCreate {
-	return <-b.NextChannelCreateC()
+func (s *Session) NextChannelCreate() *discordgo.ChannelCreate {
+	return <-s.NextChannelCreateC()
 }
 
 // NextChannelDelete returns the next ChannelDelete event
-func (b *Bot) NextChannelDelete() *discordgo.ChannelDelete {
-	return <-b.NextChannelDeleteC()
+func (s *Session) NextChannelDelete() *discordgo.ChannelDelete {
+	return <-s.NextChannelDeleteC()
 }
 
 // NextChannelPinsUpdate returns the next ChannelPinsUpdate event
-func (b *Bot) NextChannelPinsUpdate() *discordgo.ChannelPinsUpdate {
-	return <-b.NextChannelPinsUpdateC()
+func (s *Session) NextChannelPinsUpdate() *discordgo.ChannelPinsUpdate {
+	return <-s.NextChannelPinsUpdateC()
 }
 
 // NextChannelUpdate returns the next ChannelUpdate event
-func (b *Bot) NextChannelUpdate() *discordgo.ChannelUpdate {
-	return <-b.NextChannelUpdateC()
+func (s *Session) NextChannelUpdate() *discordgo.ChannelUpdate {
+	return <-s.NextChannelUpdateC()
 }
 
 // NextConnect returns the next Connect event
-func (b *Bot) NextConnect() *discordgo.Connect {
-	return <-b.NextConnectC()
+func (s *Session) NextConnect() *discordgo.Connect {
+	return <-s.NextConnectC()
 }
 
 // NextDisconnect returns the next Disconnect event
-func (b *Bot) NextDisconnect() *discordgo.Disconnect {
-	return <-b.NextDisconnectC()
+func (s *Session) NextDisconnect() *discordgo.Disconnect {
+	return <-s.NextDisconnectC()
 }
 
 // NextEvent returns the next Event event
-func (b *Bot) NextEvent() *discordgo.Event {
-	return <-b.NextEventC()
+func (s *Session) NextEvent() *discordgo.Event {
+	return <-s.NextEventC()
 }
 
 // NextGuildBanAdd returns the next GuildBanAdd event
-func (b *Bot) NextGuildBanAdd() *discordgo.GuildBanAdd {
-	return <-b.NextGuildBanAddC()
+func (s *Session) NextGuildBanAdd() *discordgo.GuildBanAdd {
+	return <-s.NextGuildBanAddC()
 }
 
 // NextGuildBanRemove returns the next GuildBanRemove event
-func (b *Bot) NextGuildBanRemove() *discordgo.GuildBanRemove {
-	return <-b.NextGuildBanRemoveC()
+func (s *Session) NextGuildBanRemove() *discordgo.GuildBanRemove {
+	return <-s.NextGuildBanRemoveC()
 }
 
 // NextGuildCreate returns the next GuildCreate event
-func (b *Bot) NextGuildCreate() *discordgo.GuildCreate {
-	return <-b.NextGuildCreateC()
+func (s *Session) NextGuildCreate() *discordgo.GuildCreate {
+	return <-s.NextGuildCreateC()
 }
 
 // NextGuildDelete returns the next GuildDelete event
-func (b *Bot) NextGuildDelete() *discordgo.GuildDelete {
-	return <-b.NextGuildDeleteC()
+func (s *Session) NextGuildDelete() *discordgo.GuildDelete {
+	return <-s.NextGuildDeleteC()
 }
 
 // NextGuildEmojisUpdate returns the next GuildEmojisUpdate event
-func (b *Bot) NextGuildEmojisUpdate() *discordgo.GuildEmojisUpdate {
-	return <-b.NextGuildEmojisUpdateC()
+func (s *Session) NextGuildEmojisUpdate() *discordgo.GuildEmojisUpdate {
+	return <-s.NextGuildEmojisUpdateC()
 }
 
 // NextGuildIntegrationsUpdate returns the next GuildIntegrationsUpdate event
-func (b *Bot) NextGuildIntegrationsUpdate() *discordgo.GuildIntegrationsUpdate {
-	return <-b.NextGuildIntegrationsUpdateC()
+func (s *Session) NextGuildIntegrationsUpdate() *discordgo.GuildIntegrationsUpdate {
+	return <-s.NextGuildIntegrationsUpdateC()
 }
 
 // NextGuildMemberAdd returns the next GuildMemberAdd event
-func (b *Bot) NextGuildMemberAdd() *discordgo.GuildMemberAdd {
-	return <-b.NextGuildMemberAddC()
+func (s *Session) NextGuildMemberAdd() *discordgo.GuildMemberAdd {
+	return <-s.NextGuildMemberAddC()
 }
 
 // NextGuildMemberRemove returns the next GuildMemberRemove event
-func (b *Bot) NextGuildMemberRemove() *discordgo.GuildMemberRemove {
-	return <-b.NextGuildMemberRemoveC()
+func (s *Session) NextGuildMemberRemove() *discordgo.GuildMemberRemove {
+	return <-s.NextGuildMemberRemoveC()
 }
 
 // NextGuildMemberUpdate returns the next GuildMemberUpdate event
-func (b *Bot) NextGuildMemberUpdate() *discordgo.GuildMemberUpdate {
-	return <-b.NextGuildMemberUpdateC()
+func (s *Session) NextGuildMemberUpdate() *discordgo.GuildMemberUpdate {
+	return <-s.NextGuildMemberUpdateC()
 }
 
 // NextGuildMembersChunk returns the next GuildMembersChunk event
-func (b *Bot) NextGuildMembersChunk() *discordgo.GuildMembersChunk {
-	return <-b.NextGuildMembersChunkC()
+func (s *Session) NextGuildMembersChunk() *discordgo.GuildMembersChunk {
+	return <-s.NextGuildMembersChunkC()
 }
 
 // NextGuildRoleCreate returns the next GuildRoleCreate event
-func (b *Bot) NextGuildRoleCreate() *discordgo.GuildRoleCreate {
-	return <-b.NextGuildRoleCreateC()
+func (s *Session) NextGuildRoleCreate() *discordgo.GuildRoleCreate {
+	return <-s.NextGuildRoleCreateC()
 }
 
 // NextGuildRoleDelete returns the next GuildRoleDelete event
-func (b *Bot) NextGuildRoleDelete() *discordgo.GuildRoleDelete {
-	return <-b.NextGuildRoleDeleteC()
+func (s *Session) NextGuildRoleDelete() *discordgo.GuildRoleDelete {
+	return <-s.NextGuildRoleDeleteC()
 }
 
 // NextGuildRoleUpdate returns the next GuildRoleUpdate event
-func (b *Bot) NextGuildRoleUpdate() *discordgo.GuildRoleUpdate {
-	return <-b.NextGuildRoleUpdateC()
+func (s *Session) NextGuildRoleUpdate() *discordgo.GuildRoleUpdate {
+	return <-s.NextGuildRoleUpdateC()
 }
 
 // NextGuildUpdate returns the next GuildUpdate event
-func (b *Bot) NextGuildUpdate() *discordgo.GuildUpdate {
-	return <-b.NextGuildUpdateC()
+func (s *Session) NextGuildUpdate() *discordgo.GuildUpdate {
+	return <-s.NextGuildUpdateC()
 }
 
 // NextMessageAck returns the next MessageAck event
-func (b *Bot) NextMessageAck() *discordgo.MessageAck {
-	return <-b.NextMessageAckC()
+func (s *Session) NextMessageAck() *discordgo.MessageAck {
+	return <-s.NextMessageAckC()
 }
 
 // NextMessageCreate returns the next MessageCreate event
-func (b *Bot) NextMessageCreate() *discordgo.MessageCreate {
-	return <-b.NextMessageCreateC()
+func (s *Session) NextMessageCreate() *discordgo.MessageCreate {
+	return <-s.NextMessageCreateC()
 }
 
 // NextMessageDelete returns the next MessageDelete event
-func (b *Bot) NextMessageDelete() *discordgo.MessageDelete {
-	return <-b.NextMessageDeleteC()
+func (s *Session) NextMessageDelete() *discordgo.MessageDelete {
+	return <-s.NextMessageDeleteC()
 }
 
 // NextMessageDeleteBulk returns the next MessageDeleteBulk event
-func (b *Bot) NextMessageDeleteBulk() *discordgo.MessageDeleteBulk {
-	return <-b.NextMessageDeleteBulkC()
+func (s *Session) NextMessageDeleteBulk() *discordgo.MessageDeleteBulk {
+	return <-s.NextMessageDeleteBulkC()
 }
 
 // NextMessageReactionAdd returns the next MessageReactionAdd event
-func (b *Bot) NextMessageReactionAdd() *discordgo.MessageReactionAdd {
-	return <-b.NextMessageReactionAddC()
+func (s *Session) NextMessageReactionAdd() *discordgo.MessageReactionAdd {
+	return <-s.NextMessageReactionAddC()
 }
 
 // NextMessageReactionRemove returns the next MessageReactionRemove event
-func (b *Bot) NextMessageReactionRemove() *discordgo.MessageReactionRemove {
-	return <-b.NextMessageReactionRemoveC()
+func (s *Session) NextMessageReactionRemove() *discordgo.MessageReactionRemove {
+	return <-s.NextMessageReactionRemoveC()
 }
 
 // NextMessageReactionRemoveAll returns the next MessageReactionRemoveAll event
-func (b *Bot) NextMessageReactionRemoveAll() *discordgo.MessageReactionRemoveAll {
-	return <-b.NextMessageReactionRemoveAllC()
+func (s *Session) NextMessageReactionRemoveAll() *discordgo.MessageReactionRemoveAll {
+	return <-s.NextMessageReactionRemoveAllC()
 }
 
 // NextMessageUpdate returns the next MessageUpdate event
-func (b *Bot) NextMessageUpdate() *discordgo.MessageUpdate {
-	return <-b.NextMessageUpdateC()
+func (s *Session) NextMessageUpdate() *discordgo.MessageUpdate {
+	return <-s.NextMessageUpdateC()
 }
 
 // NextPresenceUpdate returns the next PresenceUpdate event
-func (b *Bot) NextPresenceUpdate() *discordgo.PresenceUpdate {
-	return <-b.NextPresenceUpdateC()
+func (s *Session) NextPresenceUpdate() *discordgo.PresenceUpdate {
+	return <-s.NextPresenceUpdateC()
 }
 
 // NextPresencesReplace returns the next PresencesReplace event
-func (b *Bot) NextPresencesReplace() *discordgo.PresencesReplace {
-	return <-b.NextPresencesReplaceC()
+func (s *Session) NextPresencesReplace() *discordgo.PresencesReplace {
+	return <-s.NextPresencesReplaceC()
 }
 
 // NextRateLimit returns the next RateLimit event
-func (b *Bot) NextRateLimit() *discordgo.RateLimit {
-	return <-b.NextRateLimitC()
+func (s *Session) NextRateLimit() *discordgo.RateLimit {
+	return <-s.NextRateLimitC()
 }
 
 // NextReady returns the next Ready event
-func (b *Bot) NextReady() *discordgo.Ready {
-	return <-b.NextReadyC()
+func (s *Session) NextReady() *discordgo.Ready {
+	return <-s.NextReadyC()
 }
 
 // NextRelationshipAdd returns the next RelationshipAdd event
-func (b *Bot) NextRelationshipAdd() *discordgo.RelationshipAdd {
-	return <-b.NextRelationshipAddC()
+func (s *Session) NextRelationshipAdd() *discordgo.RelationshipAdd {
+	return <-s.NextRelationshipAddC()
 }
 
 // NextRelationshipRemove returns the next RelationshipRemove event
-func (b *Bot) NextRelationshipRemove() *discordgo.RelationshipRemove {
-	return <-b.NextRelationshipRemoveC()
+func (s *Session) NextRelationshipRemove() *discordgo.RelationshipRemove {
+	return <-s.NextRelationshipRemoveC()
 }
 
 // NextResumed returns the next Resumed event
-func (b *Bot) NextResumed() *discordgo.Resumed {
-	return <-b.NextResumedC()
+func (s *Session) NextResumed() *discordgo.Resumed {
+	return <-s.NextResumedC()
 }
 
 // NextTypingStart returns the next TypingStart event
-func (b *Bot) NextTypingStart() *discordgo.TypingStart {
-	return <-b.NextTypingStartC()
+func (s *Session) NextTypingStart() *discordgo.TypingStart {
+	return <-s.NextTypingStartC()
 }
 
 // NextUserGuildSettingsUpdate returns the next UserGuildSettingsUpdate event
-func (b *Bot) NextUserGuildSettingsUpdate() *discordgo.UserGuildSettingsUpdate {
-	return <-b.NextUserGuildSettingsUpdateC()
+func (s *Session) NextUserGuildSettingsUpdate() *discordgo.UserGuildSettingsUpdate {
+	return <-s.NextUserGuildSettingsUpdateC()
 }
 
 // NextUserNoteUpdate returns the next UserNoteUpdate event
-func (b *Bot) NextUserNoteUpdate() *discordgo.UserNoteUpdate {
-	return <-b.NextUserNoteUpdateC()
+func (s *Session) NextUserNoteUpdate() *discordgo.UserNoteUpdate {
+	return <-s.NextUserNoteUpdateC()
 }
 
 // NextUserSettingsUpdate returns the next UserSettingsUpdate event
-func (b *Bot) NextUserSettingsUpdate() *discordgo.UserSettingsUpdate {
-	return <-b.NextUserSettingsUpdateC()
+func (s *Session) NextUserSettingsUpdate() *discordgo.UserSettingsUpdate {
+	return <-s.NextUserSettingsUpdateC()
 }
 
 // NextUserUpdate returns the next UserUpdate event
-func (b *Bot) NextUserUpdate() *discordgo.UserUpdate {
-	return <-b.NextUserUpdateC()
+func (s *Session) NextUserUpdate() *discordgo.UserUpdate {
+	return <-s.NextUserUpdateC()
 }
 
 // NextVoiceServerUpdate returns the next VoiceServerUpdate event
-func (b *Bot) NextVoiceServerUpdate() *discordgo.VoiceServerUpdate {
-	return <-b.NextVoiceServerUpdateC()
+func (s *Session) NextVoiceServerUpdate() *discordgo.VoiceServerUpdate {
+	return <-s.NextVoiceServerUpdateC()
 }
 
 // NextVoiceStateUpdate returns the next VoiceStateUpdate event
-func (b *Bot) NextVoiceStateUpdate() *discordgo.VoiceStateUpdate {
-	return <-b.NextVoiceStateUpdateC()
+func (s *Session) NextVoiceStateUpdate() *discordgo.VoiceStateUpdate {
+	return <-s.NextVoiceStateUpdateC()
 }
 
 // NextChannelCreateC returns a channel for the next ChannelCreate event
-func (b *Bot) NextChannelCreateC() chan *discordgo.ChannelCreate {
+func (s *Session) NextChannelCreateC() chan *discordgo.ChannelCreate {
 	out := make(chan *discordgo.ChannelCreate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.ChannelCreate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.ChannelCreate) {
 		out <- e
 	})
 	return out
 }
 
 // NextChannelDeleteC returns a channel for the next ChannelDelete event
-func (b *Bot) NextChannelDeleteC() chan *discordgo.ChannelDelete {
+func (s *Session) NextChannelDeleteC() chan *discordgo.ChannelDelete {
 	out := make(chan *discordgo.ChannelDelete)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.ChannelDelete) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.ChannelDelete) {
 		out <- e
 	})
 	return out
 }
 
 // NextChannelPinsUpdateC returns a channel for the next ChannelPinsUpdate event
-func (b *Bot) NextChannelPinsUpdateC() chan *discordgo.ChannelPinsUpdate {
+func (s *Session) NextChannelPinsUpdateC() chan *discordgo.ChannelPinsUpdate {
 	out := make(chan *discordgo.ChannelPinsUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.ChannelPinsUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.ChannelPinsUpdate) {
 		out <- e
 	})
 	return out
 }
 
 // NextChannelUpdateC returns a channel for the next ChannelUpdate event
-func (b *Bot) NextChannelUpdateC() chan *discordgo.ChannelUpdate {
+func (s *Session) NextChannelUpdateC() chan *discordgo.ChannelUpdate {
 	out := make(chan *discordgo.ChannelUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.ChannelUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.ChannelUpdate) {
 		out <- e
 	})
 	return out
 }
 
 // NextConnectC returns a channel for the next Connect event
-func (b *Bot) NextConnectC() chan *discordgo.Connect {
+func (s *Session) NextConnectC() chan *discordgo.Connect {
 	out := make(chan *discordgo.Connect)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Connect) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Connect) {
 		out <- e
 	})
 	return out
 }
 
 // NextDisconnectC returns a channel for the next Disconnect event
-func (b *Bot) NextDisconnectC() chan *discordgo.Disconnect {
+func (s *Session) NextDisconnectC() chan *discordgo.Disconnect {
 	out := make(chan *discordgo.Disconnect)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Disconnect) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Disconnect) {
 		out <- e
 	})
 	return out
 }
 
 // NextEventC returns a channel for the next Event event
-func (b *Bot) NextEventC() chan *discordgo.Event {
+func (s *Session) NextEventC() chan *discordgo.Event {
 	out := make(chan *discordgo.Event)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Event) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Event) {
 		out <- e
 	})
 	return out
 }
 
 // NextGuildBanAddC returns a channel for the next GuildBanAdd event
-func (b *Bot) NextGuildBanAddC() chan *discordgo.GuildBanAdd {
+func (s *Session) NextGuildBanAddC() chan *discordgo.GuildBanAdd {
 	out := make(chan *discordgo.GuildBanAdd)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildBanAdd) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildBanAdd) {
 		out <- e
 	})
 	return out
 }
 
 // NextGuildBanRemoveC returns a channel for the next GuildBanRemove event
-func (b *Bot) NextGuildBanRemoveC() chan *discordgo.GuildBanRemove {
+func (s *Session) NextGuildBanRemoveC() chan *discordgo.GuildBanRemove {
 	out := make(chan *discordgo.GuildBanRemove)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildBanRemove) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildBanRemove) {
 		out <- e
 	})
 	return out
 }
 
 // NextGuildCreateC returns a channel for the next GuildCreate event
-func (b *Bot) NextGuildCreateC() chan *discordgo.GuildCreate {
+func (s *Session) NextGuildCreateC() chan *discordgo.GuildCreate {
 	out := make(chan *discordgo.GuildCreate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildCreate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildCreate) {
 		out <- e
 	})
 	return out
 }
 
 // NextGuildDeleteC returns a channel for the next GuildDelete event
-func (b *Bot) NextGuildDeleteC() chan *discordgo.GuildDelete {
+func (s *Session) NextGuildDeleteC() chan *discordgo.GuildDelete {
 	out := make(chan *discordgo.GuildDelete)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildDelete) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildDelete) {
 		out <- e
 	})
 	return out
 }
 
 // NextGuildEmojisUpdateC returns a channel for the next GuildEmojisUpdate event
-func (b *Bot) NextGuildEmojisUpdateC() chan *discordgo.GuildEmojisUpdate {
+func (s *Session) NextGuildEmojisUpdateC() chan *discordgo.GuildEmojisUpdate {
 	out := make(chan *discordgo.GuildEmojisUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildEmojisUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildEmojisUpdate) {
 		out <- e
 	})
 	return out
 }
 
 // NextGuildIntegrationsUpdateC returns a channel for the next GuildIntegrationsUpdate event
-func (b *Bot) NextGuildIntegrationsUpdateC() chan *discordgo.GuildIntegrationsUpdate {
+func (s *Session) NextGuildIntegrationsUpdateC() chan *discordgo.GuildIntegrationsUpdate {
 	out := make(chan *discordgo.GuildIntegrationsUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildIntegrationsUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildIntegrationsUpdate) {
 		out <- e
 	})
 	return out
 }
 
 // NextGuildMemberAddC returns a channel for the next GuildMemberAdd event
-func (b *Bot) NextGuildMemberAddC() chan *discordgo.GuildMemberAdd {
+func (s *Session) NextGuildMemberAddC() chan *discordgo.GuildMemberAdd {
 	out := make(chan *discordgo.GuildMemberAdd)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildMemberAdd) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildMemberAdd) {
 		out <- e
 	})
 	return out
 }
 
 // NextGuildMemberRemoveC returns a channel for the next GuildMemberRemove event
-func (b *Bot) NextGuildMemberRemoveC() chan *discordgo.GuildMemberRemove {
+func (s *Session) NextGuildMemberRemoveC() chan *discordgo.GuildMemberRemove {
 	out := make(chan *discordgo.GuildMemberRemove)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildMemberRemove) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildMemberRemove) {
 		out <- e
 	})
 	return out
 }
 
 // NextGuildMemberUpdateC returns a channel for the next GuildMemberUpdate event
-func (b *Bot) NextGuildMemberUpdateC() chan *discordgo.GuildMemberUpdate {
+func (s *Session) NextGuildMemberUpdateC() chan *discordgo.GuildMemberUpdate {
 	out := make(chan *discordgo.GuildMemberUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildMemberUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildMemberUpdate) {
 		out <- e
 	})
 	return out
 }
 
 // NextGuildMembersChunkC returns a channel for the next GuildMembersChunk event
-func (b *Bot) NextGuildMembersChunkC() chan *discordgo.GuildMembersChunk {
+func (s *Session) NextGuildMembersChunkC() chan *discordgo.GuildMembersChunk {
 	out := make(chan *discordgo.GuildMembersChunk)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildMembersChunk) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildMembersChunk) {
 		out <- e
 	})
 	return out
 }
 
 // NextGuildRoleCreateC returns a channel for the next GuildRoleCreate event
-func (b *Bot) NextGuildRoleCreateC() chan *discordgo.GuildRoleCreate {
+func (s *Session) NextGuildRoleCreateC() chan *discordgo.GuildRoleCreate {
 	out := make(chan *discordgo.GuildRoleCreate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildRoleCreate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildRoleCreate) {
 		out <- e
 	})
 	return out
 }
 
 // NextGuildRoleDeleteC returns a channel for the next GuildRoleDelete event
-func (b *Bot) NextGuildRoleDeleteC() chan *discordgo.GuildRoleDelete {
+func (s *Session) NextGuildRoleDeleteC() chan *discordgo.GuildRoleDelete {
 	out := make(chan *discordgo.GuildRoleDelete)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildRoleDelete) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildRoleDelete) {
 		out <- e
 	})
 	return out
 }
 
 // NextGuildRoleUpdateC returns a channel for the next GuildRoleUpdate event
-func (b *Bot) NextGuildRoleUpdateC() chan *discordgo.GuildRoleUpdate {
+func (s *Session) NextGuildRoleUpdateC() chan *discordgo.GuildRoleUpdate {
 	out := make(chan *discordgo.GuildRoleUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildRoleUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildRoleUpdate) {
 		out <- e
 	})
 	return out
 }
 
 // NextGuildUpdateC returns a channel for the next GuildUpdate event
-func (b *Bot) NextGuildUpdateC() chan *discordgo.GuildUpdate {
+func (s *Session) NextGuildUpdateC() chan *discordgo.GuildUpdate {
 	out := make(chan *discordgo.GuildUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.GuildUpdate) {
 		out <- e
 	})
 	return out
 }
 
 // NextMessageAckC returns a channel for the next MessageAck event
-func (b *Bot) NextMessageAckC() chan *discordgo.MessageAck {
+func (s *Session) NextMessageAckC() chan *discordgo.MessageAck {
 	out := make(chan *discordgo.MessageAck)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageAck) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageAck) {
 		out <- e
 	})
 	return out
 }
 
 // NextMessageCreateC returns a channel for the next MessageCreate event
-func (b *Bot) NextMessageCreateC() chan *discordgo.MessageCreate {
+func (s *Session) NextMessageCreateC() chan *discordgo.MessageCreate {
 	out := make(chan *discordgo.MessageCreate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageCreate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageCreate) {
 		out <- e
 	})
 	return out
 }
 
 // NextMessageDeleteC returns a channel for the next MessageDelete event
-func (b *Bot) NextMessageDeleteC() chan *discordgo.MessageDelete {
+func (s *Session) NextMessageDeleteC() chan *discordgo.MessageDelete {
 	out := make(chan *discordgo.MessageDelete)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageDelete) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageDelete) {
 		out <- e
 	})
 	return out
 }
 
 // NextMessageDeleteBulkC returns a channel for the next MessageDeleteBulk event
-func (b *Bot) NextMessageDeleteBulkC() chan *discordgo.MessageDeleteBulk {
+func (s *Session) NextMessageDeleteBulkC() chan *discordgo.MessageDeleteBulk {
 	out := make(chan *discordgo.MessageDeleteBulk)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageDeleteBulk) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageDeleteBulk) {
 		out <- e
 	})
 	return out
 }
 
 // NextMessageReactionAddC returns a channel for the next MessageReactionAdd event
-func (b *Bot) NextMessageReactionAddC() chan *discordgo.MessageReactionAdd {
+func (s *Session) NextMessageReactionAddC() chan *discordgo.MessageReactionAdd {
 	out := make(chan *discordgo.MessageReactionAdd)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageReactionAdd) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageReactionAdd) {
 		out <- e
 	})
 	return out
 }
 
 // NextMessageReactionRemoveC returns a channel for the next MessageReactionRemove event
-func (b *Bot) NextMessageReactionRemoveC() chan *discordgo.MessageReactionRemove {
+func (s *Session) NextMessageReactionRemoveC() chan *discordgo.MessageReactionRemove {
 	out := make(chan *discordgo.MessageReactionRemove)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageReactionRemove) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageReactionRemove) {
 		out <- e
 	})
 	return out
 }
 
 // NextMessageReactionRemoveAllC returns a channel for the next MessageReactionRemoveAll event
-func (b *Bot) NextMessageReactionRemoveAllC() chan *discordgo.MessageReactionRemoveAll {
+func (s *Session) NextMessageReactionRemoveAllC() chan *discordgo.MessageReactionRemoveAll {
 	out := make(chan *discordgo.MessageReactionRemoveAll)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageReactionRemoveAll) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageReactionRemoveAll) {
 		out <- e
 	})
 	return out
 }
 
 // NextMessageUpdateC returns a channel for the next MessageUpdate event
-func (b *Bot) NextMessageUpdateC() chan *discordgo.MessageUpdate {
+func (s *Session) NextMessageUpdateC() chan *discordgo.MessageUpdate {
 	out := make(chan *discordgo.MessageUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.MessageUpdate) {
 		out <- e
 	})
 	return out
 }
 
 // NextPresenceUpdateC returns a channel for the next PresenceUpdate event
-func (b *Bot) NextPresenceUpdateC() chan *discordgo.PresenceUpdate {
+func (s *Session) NextPresenceUpdateC() chan *discordgo.PresenceUpdate {
 	out := make(chan *discordgo.PresenceUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.PresenceUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.PresenceUpdate) {
 		out <- e
 	})
 	return out
 }
 
 // NextPresencesReplaceC returns a channel for the next PresencesReplace event
-func (b *Bot) NextPresencesReplaceC() chan *discordgo.PresencesReplace {
+func (s *Session) NextPresencesReplaceC() chan *discordgo.PresencesReplace {
 	out := make(chan *discordgo.PresencesReplace)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.PresencesReplace) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.PresencesReplace) {
 		out <- e
 	})
 	return out
 }
 
 // NextRateLimitC returns a channel for the next RateLimit event
-func (b *Bot) NextRateLimitC() chan *discordgo.RateLimit {
+func (s *Session) NextRateLimitC() chan *discordgo.RateLimit {
 	out := make(chan *discordgo.RateLimit)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.RateLimit) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.RateLimit) {
 		out <- e
 	})
 	return out
 }
 
 // NextReadyC returns a channel for the next Ready event
-func (b *Bot) NextReadyC() chan *discordgo.Ready {
+func (s *Session) NextReadyC() chan *discordgo.Ready {
 	out := make(chan *discordgo.Ready)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Ready) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Ready) {
 		out <- e
 	})
 	return out
 }
 
 // NextRelationshipAddC returns a channel for the next RelationshipAdd event
-func (b *Bot) NextRelationshipAddC() chan *discordgo.RelationshipAdd {
+func (s *Session) NextRelationshipAddC() chan *discordgo.RelationshipAdd {
 	out := make(chan *discordgo.RelationshipAdd)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.RelationshipAdd) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.RelationshipAdd) {
 		out <- e
 	})
 	return out
 }
 
 // NextRelationshipRemoveC returns a channel for the next RelationshipRemove event
-func (b *Bot) NextRelationshipRemoveC() chan *discordgo.RelationshipRemove {
+func (s *Session) NextRelationshipRemoveC() chan *discordgo.RelationshipRemove {
 	out := make(chan *discordgo.RelationshipRemove)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.RelationshipRemove) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.RelationshipRemove) {
 		out <- e
 	})
 	return out
 }
 
 // NextResumedC returns a channel for the next Resumed event
-func (b *Bot) NextResumedC() chan *discordgo.Resumed {
+func (s *Session) NextResumedC() chan *discordgo.Resumed {
 	out := make(chan *discordgo.Resumed)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Resumed) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.Resumed) {
 		out <- e
 	})
 	return out
 }
 
 // NextTypingStartC returns a channel for the next TypingStart event
-func (b *Bot) NextTypingStartC() chan *discordgo.TypingStart {
+func (s *Session) NextTypingStartC() chan *discordgo.TypingStart {
 	out := make(chan *discordgo.TypingStart)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.TypingStart) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.TypingStart) {
 		out <- e
 	})
 	return out
 }
 
 // NextUserGuildSettingsUpdateC returns a channel for the next UserGuildSettingsUpdate event
-func (b *Bot) NextUserGuildSettingsUpdateC() chan *discordgo.UserGuildSettingsUpdate {
+func (s *Session) NextUserGuildSettingsUpdateC() chan *discordgo.UserGuildSettingsUpdate {
 	out := make(chan *discordgo.UserGuildSettingsUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.UserGuildSettingsUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.UserGuildSettingsUpdate) {
 		out <- e
 	})
 	return out
 }
 
 // NextUserNoteUpdateC returns a channel for the next UserNoteUpdate event
-func (b *Bot) NextUserNoteUpdateC() chan *discordgo.UserNoteUpdate {
+func (s *Session) NextUserNoteUpdateC() chan *discordgo.UserNoteUpdate {
 	out := make(chan *discordgo.UserNoteUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.UserNoteUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.UserNoteUpdate) {
 		out <- e
 	})
 	return out
 }
 
 // NextUserSettingsUpdateC returns a channel for the next UserSettingsUpdate event
-func (b *Bot) NextUserSettingsUpdateC() chan *discordgo.UserSettingsUpdate {
+func (s *Session) NextUserSettingsUpdateC() chan *discordgo.UserSettingsUpdate {
 	out := make(chan *discordgo.UserSettingsUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.UserSettingsUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.UserSettingsUpdate) {
 		out <- e
 	})
 	return out
 }
 
 // NextUserUpdateC returns a channel for the next UserUpdate event
-func (b *Bot) NextUserUpdateC() chan *discordgo.UserUpdate {
+func (s *Session) NextUserUpdateC() chan *discordgo.UserUpdate {
 	out := make(chan *discordgo.UserUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.UserUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.UserUpdate) {
 		out <- e
 	})
 	return out
 }
 
 // NextVoiceServerUpdateC returns a channel for the next VoiceServerUpdate event
-func (b *Bot) NextVoiceServerUpdateC() chan *discordgo.VoiceServerUpdate {
+func (s *Session) NextVoiceServerUpdateC() chan *discordgo.VoiceServerUpdate {
 	out := make(chan *discordgo.VoiceServerUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.VoiceServerUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.VoiceServerUpdate) {
 		out <- e
 	})
 	return out
 }
 
 // NextVoiceStateUpdateC returns a channel for the next VoiceStateUpdate event
-func (b *Bot) NextVoiceStateUpdateC() chan *discordgo.VoiceStateUpdate {
+func (s *Session) NextVoiceStateUpdateC() chan *discordgo.VoiceStateUpdate {
 	out := make(chan *discordgo.VoiceStateUpdate)
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.VoiceStateUpdate) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.VoiceStateUpdate) {
 		out <- e
 	})
 	return out

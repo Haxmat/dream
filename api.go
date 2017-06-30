@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"image"
+	"log"
 	"sort"
 
 	//Blank imports included for decoding a user's avatar into an image.
@@ -37,7 +38,7 @@ var (
 
 // MessageFromInterface returns the underlying message struct of an event relating to messages
 // Such as MessageCreate, MessageDelete, MessageUpdate.
-func (b *Bot) MessageFromInterface(i interface{}) (*discordgo.Message, error) {
+func (s *Session) MessageFromInterface(i interface{}) (*discordgo.Message, error) {
 	switch t := i.(type) {
 	case *discordgo.MessageCreate:
 		return t.Message, nil
@@ -55,10 +56,10 @@ func (b *Bot) MessageFromInterface(i interface{}) (*discordgo.Message, error) {
 }
 
 // ChannelID Returns the channelID from a variety of objects
-func (b *Bot) ChannelID(i interface{}) (string, error) {
+func (s *Session) ChannelID(i interface{}) (string, error) {
 
 	// Attempt to retrieve a message object from the interface
-	if m, err := b.MessageFromInterface(i); err == nil {
+	if m, err := s.MessageFromInterface(i); err == nil {
 		return m.ChannelID, nil
 	}
 
@@ -76,13 +77,13 @@ func (b *Bot) ChannelID(i interface{}) (string, error) {
 }
 
 // GuildID returns the GuildID from a variety of objects
-func (b *Bot) GuildID(i interface{}) (string, error) {
+func (s *Session) GuildID(i interface{}) (string, error) {
 
 	// Attempt to get the Message object from the interface.
 	// If it fails, check the other possible types.
-	if t, err := b.MessageFromInterface(i); err == nil {
+	if t, err := s.MessageFromInterface(i); err == nil {
 
-		c, err := b.Channel(t.ChannelID)
+		c, err := s.Channel(t.ChannelID)
 		if err != nil {
 			return "", err
 		}
@@ -114,9 +115,9 @@ func (b *Bot) GuildID(i interface{}) (string, error) {
 }
 
 // UserID returns the userID from a variety of objects.
-func (b *Bot) UserID(i interface{}) (userid string, err error) {
+func (s *Session) UserID(i interface{}) (userid string, err error) {
 
-	if t, err := b.MessageFromInterface(i); err == nil {
+	if t, err := s.MessageFromInterface(i); err == nil {
 		if t.Author != nil {
 			return t.Author.ID, nil
 		}
@@ -141,20 +142,20 @@ func (b *Bot) UserID(i interface{}) (userid string, err error) {
 }
 
 // Channel is a convenience method for retrieving a channel from a variety of objects
-func (b *Bot) Channel(i interface{}) (*discordgo.Channel, error) {
+func (s *Session) Channel(i interface{}) (*discordgo.Channel, error) {
 
 	// Return channel if `i` is already of type channel
 	if c, ok := i.(*discordgo.Channel); ok {
 		return c, nil
 	}
 
-	channelid, err := b.ChannelID(i)
+	channelid, err := s.ChannelID(i)
 	if err != nil {
 		return nil, err
 	}
-	c, err := b.DG.State.Channel(channelid)
+	c, err := s.DG.State.Channel(channelid)
 	if err != nil {
-		c, err = b.DG.Channel(channelid)
+		c, err = s.DG.Channel(channelid)
 		if err != nil {
 			return nil, err
 		}
@@ -163,8 +164,8 @@ func (b *Bot) Channel(i interface{}) (*discordgo.Channel, error) {
 }
 
 // ChannelVoiceJoin joins the specified voice channel
-func (b *Bot) ChannelVoiceJoin(guildID, channelID string, mute, deaf bool) (*discordgo.VoiceConnection, error) {
-	vc, err := b.DG.ChannelVoiceJoin(guildID, channelID, mute, deaf)
+func (s *Session) ChannelVoiceJoin(guildID, channelID string, mute, deaf bool) (*discordgo.VoiceConnection, error) {
+	vc, err := s.DG.ChannelVoiceJoin(guildID, channelID, mute, deaf)
 	if err != nil {
 		return nil, err
 	}
@@ -172,9 +173,9 @@ func (b *Bot) ChannelVoiceJoin(guildID, channelID string, mute, deaf bool) (*dis
 }
 
 // UserVoiceState finds a user's voice state from all the guilds in the session
-func (b *Bot) UserVoiceState(userID string) (*discordgo.VoiceState, error) {
+func (s *Session) UserVoiceState(userID string) (*discordgo.VoiceState, error) {
 
-	for _, v := range b.DG.State.Guilds {
+	for _, v := range s.DG.State.Guilds {
 		for _, c := range v.VoiceStates {
 			if c.UserID == userID {
 				return c, nil
@@ -186,22 +187,22 @@ func (b *Bot) UserVoiceState(userID string) (*discordgo.VoiceState, error) {
 }
 
 // UserVoiceStateJoin joins a user's voice state channel.
-func (b *Bot) UserVoiceStateJoin(userID interface{}, mute, deaf bool) (*discordgo.VoiceConnection, error) {
-	uid, err := b.UserID(userID)
+func (s *Session) UserVoiceStateJoin(userID interface{}, mute, deaf bool) (*discordgo.VoiceConnection, error) {
+	uid, err := s.UserID(userID)
 	if err != nil {
 		return nil, err
 	}
 
-	vs, err := b.UserVoiceState(uid)
+	vs, err := s.UserVoiceState(uid)
 	if err != nil {
 		return nil, err
 	}
 
-	return b.ChannelVoiceJoin(vs.GuildID, vs.ChannelID, mute, deaf)
+	return s.ChannelVoiceJoin(vs.GuildID, vs.ChannelID, mute, deaf)
 }
 
 // UserAvatarURL returns the URL of a User's Avatar. Sizes: 64, 128, 256, 512, 1024...
-func (b *Bot) UserAvatarURL(userID, avatarID, size string) string {
+func (s *Session) UserAvatarURL(userID, avatarID, size string) string {
 	extension := ".jpg"
 	if strings.HasPrefix(avatarID, "a_") {
 		extension = ".gif"
@@ -210,8 +211,8 @@ func (b *Bot) UserAvatarURL(userID, avatarID, size string) string {
 }
 
 // UserAvatar returns a user's avatar decoded into an image
-func (b *Bot) UserAvatar(userID, avatarID, size string) (image.Image, error) {
-	url := b.UserAvatarURL(userID, avatarID, size)
+func (s *Session) UserAvatar(userID, avatarID, size string) (image.Image, error) {
+	url := s.UserAvatarURL(userID, avatarID, size)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -244,15 +245,15 @@ func (p *Processes) KillAll() {
 
 // convertToOpus converts the given io.Reader stream to an Opus stream
 // Using ffmpeg and dca-rs
-func (b *Bot) convertToOpus(rd io.Reader) (io.Reader, *Processes, error) {
-	ffmpeg := exec.Command(b.Config.FfmpegPath, "-i", "pipe:0", "-f", "s16le", "-ar", "48000", "-ac", "2", "pipe:1")
+func (s *Session) convertToOpus(rd io.Reader) (io.Reader, *Processes, error) {
+	ffmpeg := exec.Command(s.Config.FfmpegPath, "-i", "pipe:0", "-f", "s16le", "-ar", "48000", "-ac", "2", "pipe:1")
 	ffmpeg.Stdin = rd
 	ffmpegout, err := ffmpeg.StdoutPipe()
 	if err != nil {
 		return nil, nil, err
 	}
 
-	dca := exec.Command(b.Config.DcaRsPath, "--raw", "-i", "pipe:0")
+	dca := exec.Command(s.Config.DcaRsPath, "--raw", "-i", "pipe:0")
 	dca.Stdin = ffmpegout
 	dcaout, err := dca.StdoutPipe()
 	dcabuf := bufio.NewReaderSize(dcaout, 1024)
@@ -262,13 +263,13 @@ func (b *Bot) convertToOpus(rd io.Reader) (io.Reader, *Processes, error) {
 
 	err = ffmpeg.Start()
 	if err != nil {
-		b.Log("convertToOpus ffmpeg err: ", err)
+		log.Println("convertToOpus err: ", err)
 		return nil, nil, err
 	}
 
 	err = dca.Start()
 	if err != nil {
-		b.Log("convertToOpus: dca-rs err: ", err)
+		log.Println("convertToOpus err: ", err)
 		return nil, nil, err
 	}
 
@@ -280,13 +281,13 @@ func (b *Bot) convertToOpus(rd io.Reader) (io.Reader, *Processes, error) {
 }
 
 // GuildAudioDispatcherStop a guild's currently playing audio dispatchers
-func (b *Bot) GuildAudioDispatcherStop(i interface{}) error {
-	guildID, err := b.GuildID(i)
+func (s *Session) GuildAudioDispatcherStop(i interface{}) error {
+	guildID, err := s.GuildID(i)
 	if err != nil {
 		return err
 	}
 
-	disp, err := b.audioDispatcher(guildID)
+	disp, err := s.audioDispatcher(guildID)
 	if err != nil {
 		return err
 	}
@@ -297,13 +298,13 @@ func (b *Bot) GuildAudioDispatcherStop(i interface{}) error {
 }
 
 // GuildAudioDispatcherPause pauses the guild's currently playing audio dispatcher
-func (b *Bot) GuildAudioDispatcherPause(i interface{}) error {
-	guildID, err := b.GuildID(i)
+func (s *Session) GuildAudioDispatcherPause(i interface{}) error {
+	guildID, err := s.GuildID(i)
 	if err != nil {
 		return err
 	}
 
-	disp, err := b.audioDispatcher(guildID)
+	disp, err := s.audioDispatcher(guildID)
 	if err != nil {
 		return err
 	}
@@ -313,13 +314,13 @@ func (b *Bot) GuildAudioDispatcherPause(i interface{}) error {
 }
 
 // GuildAudioDispatcherResume resumes the guild's currently playing audio dispatcher
-func (b *Bot) GuildAudioDispatcherResume(i interface{}) error {
-	guildID, err := b.GuildID(i)
+func (s *Session) GuildAudioDispatcherResume(i interface{}) error {
+	guildID, err := s.GuildID(i)
 	if err != nil {
 		return err
 	}
 
-	disp, err := b.audioDispatcher(guildID)
+	disp, err := s.audioDispatcher(guildID)
 	if err != nil {
 		return err
 	}
@@ -329,25 +330,25 @@ func (b *Bot) GuildAudioDispatcherResume(i interface{}) error {
 }
 
 // GuildAudioDispatcher returns the specified guild's audio dispatcher
-func (b *Bot) GuildAudioDispatcher(i interface{}) (*AudioDispatcher, error) {
-	guildID, err := b.GuildID(i)
+func (s *Session) GuildAudioDispatcher(i interface{}) (*AudioDispatcher, error) {
+	guildID, err := s.GuildID(i)
 	if err != nil {
 		return nil, err
 	}
 
-	return b.audioDispatcher(guildID)
+	return s.audioDispatcher(guildID)
 }
 
 // PlayStream plays an audio stream from the given io reader and uses ffmpeg to convert to a suitable format
-func (b *Bot) PlayStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDispatcher {
-	opusStream, procs, err := b.convertToOpus(rd)
+func (s *Session) PlayStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDispatcher {
+	opusStream, procs, err := s.convertToOpus(rd)
 	if err != nil {
 		return nil
 	}
 
 	disp := NewAudioDispatcher(vc, opusStream)
-	b.GuildAudioDispatcherStop(vc.GuildID)
-	b.addAudioDispatcher(disp)
+	s.GuildAudioDispatcherStop(vc.GuildID)
+	s.addAudioDispatcher(disp)
 
 	go func() {
 		disp.Start()
@@ -358,10 +359,10 @@ func (b *Bot) PlayStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDisp
 }
 
 // PlayRawStream plays a direct stream
-func (b *Bot) PlayRawStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDispatcher {
+func (s *Session) PlayRawStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDispatcher {
 	disp := NewAudioDispatcher(vc, rd)
-	b.GuildAudioDispatcherStop(vc.GuildID)
-	b.addAudioDispatcher(disp)
+	s.GuildAudioDispatcherStop(vc.GuildID)
+	s.addAudioDispatcher(disp)
 
 	go func() {
 		disp.Start()
@@ -372,42 +373,42 @@ func (b *Bot) PlayRawStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioD
 }
 
 // PlayFile opens a file and calls PlayStream on it
-func (b *Bot) PlayFile(vc *discordgo.VoiceConnection, path string) (*AudioDispatcher, error) {
+func (s *Session) PlayFile(vc *discordgo.VoiceConnection, path string) (*AudioDispatcher, error) {
 	f, err := os.OpenFile(path, os.O_RDONLY, 0666)
 
 	if err != nil {
 		return nil, err
 	}
 
-	disp := b.PlayStream(vc, f)
+	disp := s.PlayStream(vc, f)
 	return disp, nil
 }
 
 // PlayRawFile opens a file and calls PlayRawstream on it
-func (b *Bot) PlayRawFile(vc *discordgo.VoiceConnection, path string) (*AudioDispatcher, error) {
+func (s *Session) PlayRawFile(vc *discordgo.VoiceConnection, path string) (*AudioDispatcher, error) {
 	f, err := os.OpenFile(path, os.O_RDONLY, 0666)
 
 	if err != nil {
 		return nil, err
 	}
 
-	disp := b.PlayRawStream(vc, f)
+	disp := s.PlayRawStream(vc, f)
 	return disp, nil
 }
 
 // Guild is a convenience method for retrieving a channel from a variety of objects
-func (b *Bot) Guild(i interface{}) (*discordgo.Guild, error) {
+func (s *Session) Guild(i interface{}) (*discordgo.Guild, error) {
 	if g, ok := i.(*discordgo.Guild); ok {
 		return g, nil
 	}
 
-	guildid, err := b.GuildID(i)
+	guildid, err := s.GuildID(i)
 	if err != nil {
 		return nil, err
 	}
-	guild, err := b.DG.State.Guild(guildid)
+	guild, err := s.DG.State.Guild(guildid)
 	if err != nil {
-		guild, err = b.DG.Guild(guildid)
+		guild, err = s.DG.Guild(guildid)
 		if err != nil {
 			return nil, err
 		}
@@ -419,7 +420,7 @@ func (b *Bot) Guild(i interface{}) (*discordgo.Guild, error) {
 
 // GuildPresence attempts to first find a guildMember object from the supplied arguments. If a member is found,
 // It uses the members guildID and userID.
-func (b *Bot) GuildPresence(i ...interface{}) (*discordgo.Presence, error) {
+func (s *Session) GuildPresence(i ...interface{}) (*discordgo.Presence, error) {
 	var userID string
 	var guildID string
 
@@ -436,11 +437,11 @@ func (b *Bot) GuildPresence(i ...interface{}) (*discordgo.Presence, error) {
 	//Otherwise, Get the guild ID from the first argument and the UserID from the second.
 	if len(i) == 1 {
 
-		gid, err := b.GuildID(i[0])
+		gid, err := s.GuildID(i[0])
 		if err != nil {
 			return nil, err
 		}
-		uid, err := b.UserID(i[0])
+		uid, err := s.UserID(i[0])
 		if err != nil {
 			return nil, err
 		}
@@ -450,13 +451,13 @@ func (b *Bot) GuildPresence(i ...interface{}) (*discordgo.Presence, error) {
 	} else {
 
 		//Get guildID from first argument
-		gid, err := b.GuildID(i[0])
+		gid, err := s.GuildID(i[0])
 		if err != nil {
 			return nil, err
 		}
 
 		//Get userID from second argument
-		uid, err := b.UserID(i[1])
+		uid, err := s.UserID(i[1])
 		if err != nil {
 			return nil, err
 		}
@@ -464,7 +465,7 @@ func (b *Bot) GuildPresence(i ...interface{}) (*discordgo.Presence, error) {
 		userID, guildID = uid, gid
 	}
 
-	p, err := b.DG.State.Presence(guildID, userID)
+	p, err := s.DG.State.Presence(guildID, userID)
 	if err == nil {
 		return p, nil
 	}
@@ -473,13 +474,13 @@ func (b *Bot) GuildPresence(i ...interface{}) (*discordgo.Presence, error) {
 }
 
 // GuildVoiceConnection returns the voice connection object for the given guild
-func (b *Bot) GuildVoiceConnection(i interface{}) (*discordgo.VoiceConnection, error) {
-	guildID, err := b.GuildID(i)
+func (s *Session) GuildVoiceConnection(i interface{}) (*discordgo.VoiceConnection, error) {
+	guildID, err := s.GuildID(i)
 	if err != nil {
 		return nil, err
 	}
 
-	if vc, ok := b.DG.VoiceConnections[guildID]; ok {
+	if vc, ok := s.DG.VoiceConnections[guildID]; ok {
 		return vc, nil
 	}
 
@@ -487,8 +488,8 @@ func (b *Bot) GuildVoiceConnection(i interface{}) (*discordgo.VoiceConnection, e
 }
 
 // GuildVoiceConnectionDisconnect finds the current guild voice connection and disconnects from it
-func (b *Bot) GuildVoiceConnectionDisconnect(guildID interface{}) error {
-	vc, err := b.GuildVoiceConnection(guildID)
+func (s *Session) GuildVoiceConnectionDisconnect(guildID interface{}) error {
+	vc, err := s.GuildVoiceConnection(guildID)
 	if err != nil {
 		return err
 	}
@@ -497,7 +498,7 @@ func (b *Bot) GuildVoiceConnectionDisconnect(guildID interface{}) error {
 }
 
 // GuildMember is a convenience method for fetching the member object from various sources
-func (b *Bot) GuildMember(i ...interface{}) (*discordgo.Member, error) {
+func (s *Session) GuildMember(i ...interface{}) (*discordgo.Member, error) {
 	if len(i) == 0 {
 		return nil, ErrInvalidArgLength
 	}
@@ -516,11 +517,11 @@ func (b *Bot) GuildMember(i ...interface{}) (*discordgo.Member, error) {
 	if len(i) == 1 {
 		// Attempt to get both the userID and the guildid
 		// From the first argument
-		guildid, err = b.GuildID(i[0])
+		guildid, err = s.GuildID(i[0])
 		if err != nil {
 			return nil, err
 		}
-		userid, err = b.UserID(i[0])
+		userid, err = s.UserID(i[0])
 		if err != nil {
 			return nil, err
 		}
@@ -529,21 +530,21 @@ func (b *Bot) GuildMember(i ...interface{}) (*discordgo.Member, error) {
 		// Attempt to get the guildID from the first one
 		// And the userID from the second
 
-		guildid, err = b.GuildID(i[0])
+		guildid, err = s.GuildID(i[0])
 		if err != nil {
 			return nil, err
 		}
 
-		userid, err = b.UserID(i[1])
+		userid, err = s.UserID(i[1])
 		if err != nil {
 			return nil, err
 		}
 	}
 
 	// Fetch member from state and fall back to the restAPI if that fails.
-	gm, err := b.DG.State.Member(guildid, userid)
+	gm, err := s.DG.State.Member(guildid, userid)
 	if err != nil {
-		gm, err = b.DG.GuildMember(guildid, userid)
+		gm, err = s.DG.GuildMember(guildid, userid)
 		if err != nil {
 			return nil, err
 		}
@@ -552,8 +553,8 @@ func (b *Bot) GuildMember(i ...interface{}) (*discordgo.Member, error) {
 }
 
 // GuildRoles requests a guilds roles from the state or the API if not available in state
-func (b *Bot) GuildRoles(i interface{}) ([]*discordgo.Role, error) {
-	guild, err := b.Guild(i)
+func (s *Session) GuildRoles(i interface{}) ([]*discordgo.Role, error) {
+	guild, err := s.Guild(i)
 	if err != nil {
 		return nil, err
 	}
@@ -569,15 +570,15 @@ func (b *Bot) GuildRoles(i interface{}) ([]*discordgo.Role, error) {
 }
 
 // GuildMemberRoles returns an array of the roles of a member sorted by position
-func (b *Bot) GuildMemberRoles(i ...interface{}) ([]*discordgo.Role, error) {
+func (s *Session) GuildMemberRoles(i ...interface{}) ([]*discordgo.Role, error) {
 	var roles []*discordgo.Role
 
-	member, err := b.GuildMember(i...)
+	member, err := s.GuildMember(i...)
 	if err != nil {
 		return nil, err
 	}
 
-	guildRoles, err := b.GuildRoles(member.GuildID)
+	guildRoles, err := s.GuildRoles(member.GuildID)
 	if err != nil {
 		return nil, err
 	}
@@ -598,35 +599,35 @@ func (b *Bot) GuildMemberRoles(i ...interface{}) ([]*discordgo.Role, error) {
 //  guildID   : The ID of a Guild.
 //  userID    : The ID of a User.
 //  roleID 	  : The ID of a Role to be assigned to the user.
-func (b *Bot) GuildMemberRoleAdd(guildID, userID interface{}, roleID string) error {
-	gid, err := b.GuildID(guildID)
+func (s *Session) GuildMemberRoleAdd(guildID, userID interface{}, roleID string) error {
+	gid, err := s.GuildID(guildID)
 	if err != nil {
 		return err
 	}
 
-	uid, err := b.UserID(userID)
+	uid, err := s.UserID(userID)
 	if err != nil {
 		return err
 	}
 
-	return b.DG.GuildMemberRoleAdd(gid, uid, roleID)
+	return s.DG.GuildMemberRoleAdd(gid, uid, roleID)
 }
 
 // GuildMemberRoleAddByName adds a role to the specified guild member
-func (b *Bot) GuildMemberRoleAddByName(guildID, userID interface{}, name string) error {
-	guild, err := b.Guild(guildID)
+func (s *Session) GuildMemberRoleAddByName(guildID, userID interface{}, name string) error {
+	guild, err := s.Guild(guildID)
 	if err != nil {
 		return err
 	}
 
-	uid, err := b.UserID(userID)
+	uid, err := s.UserID(userID)
 	if err != nil {
 		return err
 	}
 
 	for _, v := range guild.Roles {
 		if v.Name == name {
-			return b.DG.GuildMemberRoleAdd(guild.ID, uid, v.ID)
+			return s.DG.GuildMemberRoleAdd(guild.ID, uid, v.ID)
 		}
 	}
 
@@ -634,19 +635,19 @@ func (b *Bot) GuildMemberRoleAddByName(guildID, userID interface{}, name string)
 }
 
 // GuildMemberRoleAddByNames ...
-func (b *Bot) GuildMemberRoleAddByNames(guildID, userID interface{}, names ...string) (err error) {
-	guild, err := b.Guild(guildID)
+func (s *Session) GuildMemberRoleAddByNames(guildID, userID interface{}, names ...string) (err error) {
+	guild, err := s.Guild(guildID)
 	if err != nil {
 		return
 	}
 
-	uid, err := b.UserID(userID)
+	uid, err := s.UserID(userID)
 	if err != nil {
 		return
 	}
 
 	for _, name := range names {
-		err = b.GuildMemberRoleAddByName(guild, uid, name)
+		err = s.GuildMemberRoleAddByName(guild, uid, name)
 	}
 	return
 }
@@ -655,40 +656,40 @@ func (b *Bot) GuildMemberRoleAddByNames(guildID, userID interface{}, names ...st
 //  guildID   : The ID of a Guild.
 //  userID    : The ID of a User.
 //  roleID 	  : The ID of a Role to be removed from the user.
-func (b *Bot) GuildMemberRoleRemove(guildID, userID interface{}, roleID string) error {
-	gid, err := b.GuildID(guildID)
+func (s *Session) GuildMemberRoleRemove(guildID, userID interface{}, roleID string) error {
+	gid, err := s.GuildID(guildID)
 	if err != nil {
 		return err
 	}
 
-	uid, err := b.UserID(userID)
+	uid, err := s.UserID(userID)
 	if err != nil {
 		return err
 	}
 
-	return b.DG.GuildMemberRoleRemove(gid, uid, roleID)
+	return s.DG.GuildMemberRoleRemove(gid, uid, roleID)
 }
 
 // GuildMemberRoleRemoveByName removes a role from a member by name
-func (b *Bot) GuildMemberRoleRemoveByName(guildID, userID interface{}, rolename string) error {
-	gid, err := b.GuildID(guildID)
+func (s *Session) GuildMemberRoleRemoveByName(guildID, userID interface{}, rolename string) error {
+	gid, err := s.GuildID(guildID)
 	if err != nil {
 		return err
 	}
 
-	uid, err := b.UserID(userID)
+	uid, err := s.UserID(userID)
 	if err != nil {
 		return err
 	}
 
-	memberRoles, err := b.GuildMemberRoles(gid, uid)
+	memberRoles, err := s.GuildMemberRoles(gid, uid)
 	if err != nil {
 		return err
 	}
 
 	for _, v := range memberRoles {
 		if v.Name == rolename {
-			return b.GuildMemberRoleRemove(gid, uid, v.ID)
+			return s.GuildMemberRoleRemove(gid, uid, v.ID)
 		}
 	}
 
@@ -696,19 +697,19 @@ func (b *Bot) GuildMemberRoleRemoveByName(guildID, userID interface{}, rolename 
 }
 
 // GuildMemberRolesRemoveByName removes a list of roles by name from a guild member
-func (b *Bot) GuildMemberRolesRemoveByName(guildID, userID interface{}, rolenames ...string) (err error) {
-	gid, err := b.GuildID(guildID)
+func (s *Session) GuildMemberRolesRemoveByName(guildID, userID interface{}, rolenames ...string) (err error) {
+	gid, err := s.GuildID(guildID)
 	if err != nil {
 		return err
 	}
 
-	uid, err := b.UserID(userID)
+	uid, err := s.UserID(userID)
 	if err != nil {
 		return err
 	}
 
 	for _, rolename := range rolenames {
-		err = b.GuildMemberRoleRemoveByName(gid, uid, rolename)
+		err = s.GuildMemberRoleRemoveByName(gid, uid, rolename)
 	}
 	return
 }
@@ -732,23 +733,23 @@ type RoleSettings struct {
 
 // GuildRoleCreate creates a role and edits it with the given GuildRoleSettings
 // Struct requires paramater [GuildID] to be set
-func (b *Bot) GuildRoleCreate(guildID string, settings RoleSettings) (*discordgo.Role, error) {
-	role, err := b.DG.GuildRoleCreate(guildID)
+func (s *Session) GuildRoleCreate(guildID string, settings RoleSettings) (*discordgo.Role, error) {
+	role, err := s.DG.GuildRoleCreate(guildID)
 	if err != nil {
 		return nil, err
 	}
 
 	// Wait until the role gets updated in the guild
-	// for b.NextGuildRoleCreate().Role.ID != role.ID {
+	// fors.NextGuildRoleCreate().Role.ID != role.ID {
 	// }
 
-	return b.GuildRoleEdit(guildID, role.ID, settings)
+	return s.GuildRoleEdit(guildID, role.ID, settings)
 }
 
 // GuildRoleEdit edit edits the role in the given guild with 'settings'
 // Struct requires parameters [GuildID] [RoleID] to be set.
-func (b *Bot) GuildRoleEdit(guildID, roleID string, settings RoleSettings) (*discordgo.Role, error) {
-	return b.DG.GuildRoleEdit(
+func (s *Session) GuildRoleEdit(guildID, roleID string, settings RoleSettings) (*discordgo.Role, error) {
+	return s.DG.GuildRoleEdit(
 		guildID, roleID,
 		settings.Name, settings.Color, settings.Hoist,
 		settings.Perm, settings.Mention,
@@ -756,26 +757,26 @@ func (b *Bot) GuildRoleEdit(guildID, roleID string, settings RoleSettings) (*dis
 }
 
 // GuildRoleDelete deletes a role from a guild
-func (b *Bot) GuildRoleDelete(i interface{}, roleID string) error {
-	guild, err := b.Guild(i)
+func (s *Session) GuildRoleDelete(i interface{}, roleID string) error {
+	guild, err := s.Guild(i)
 	if err != nil {
 		return err
 	}
 
-	return b.DG.GuildRoleDelete(guild.ID, roleID)
+	return s.DG.GuildRoleDelete(guild.ID, roleID)
 }
 
 // GuildRoleDeleteByName deletes a role from the guild by name.
 // The first argument will be used to obtain the Guild.
-func (b *Bot) GuildRoleDeleteByName(i interface{}, name string) error {
-	guild, err := b.Guild(i)
+func (s *Session) GuildRoleDeleteByName(i interface{}, name string) error {
+	guild, err := s.Guild(i)
 	if err != nil {
 		return err
 	}
 
 	for _, v := range guild.Roles {
 		if v.Name == name {
-			return b.DG.GuildRoleDelete(guild.ID, v.ID)
+			return s.DG.GuildRoleDelete(guild.ID, v.ID)
 		}
 	}
 
@@ -783,39 +784,39 @@ func (b *Bot) GuildRoleDeleteByName(i interface{}, name string) error {
 }
 
 // GuildRoleDeleteByNames deletes multiple roles from the guild by name
-func (b *Bot) GuildRoleDeleteByNames(i interface{}, names ...string) (err error) {
-	guild, err := b.Guild(i)
+func (s *Session) GuildRoleDeleteByNames(i interface{}, names ...string) (err error) {
+	guild, err := s.Guild(i)
 	if err != nil {
 		return
 	}
 
 	for _, v := range names {
-		err = b.GuildRoleDeleteByName(guild, v)
+		err = s.GuildRoleDeleteByName(guild, v)
 	}
 
 	return
 }
 
 // SendMessage is a convenience method for sending messages to a channel
-func (b *Bot) SendMessage(i interface{}, text ...interface{}) (*discordgo.Message, error) {
-	channelid, err := b.ChannelID(i)
+func (s *Session) SendMessage(i interface{}, text ...interface{}) (*discordgo.Message, error) {
+	channelid, err := s.ChannelID(i)
 	if err != nil {
 		return nil, err
 	}
-	return b.DG.ChannelMessageSend(channelid, fmt.Sprint(text...))
+	return s.DG.ChannelMessageSend(channelid, fmt.Sprint(text...))
 }
 
 // SendFile is a convenience method for sending files to a channel
-func (b *Bot) SendFile(i interface{}, filename string, rd io.Reader) (*discordgo.Message, error) {
-	channelid, err := b.ChannelID(i)
+func (s *Session) SendFile(i interface{}, filename string, rd io.Reader) (*discordgo.Message, error) {
+	channelid, err := s.ChannelID(i)
 	if err != nil {
 		return nil, err
 	}
-	return b.DG.ChannelFileSend(channelid, filename, rd)
+	return s.DG.ChannelFileSend(channelid, filename, rd)
 }
 
 // SendEmbed is a convenience method for sending embeds to a channel
-func (b *Bot) SendEmbed(i interface{}, e interface{}) (*discordgo.Message, error) {
+func (s *Session) SendEmbed(i interface{}, e interface{}) (*discordgo.Message, error) {
 	var embed *discordgo.MessageEmbed
 	switch t := e.(type) {
 	case *discordgo.MessageEmbed:
@@ -827,9 +828,9 @@ func (b *Bot) SendEmbed(i interface{}, e interface{}) (*discordgo.Message, error
 	default:
 		return nil, ErrInvalidType
 	}
-	channelid, err := b.ChannelID(i)
+	channelid, err := s.ChannelID(i)
 	if err != nil {
 		return nil, err
 	}
-	return b.DG.ChannelMessageSendEmbed(channelid, embed)
+	return s.DG.ChannelMessageSendEmbed(channelid, embed)
 }

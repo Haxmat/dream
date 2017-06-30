@@ -27,27 +27,27 @@ import (
 // AUTO GENERATED CODE. DO NOT EDIT
 // --------------------------------------
 
-//AddHandler wraps the discordgo addhandler function to return a Bot object.
-func (b *Bot) AddHandler(i interface{}) {
+//AddHandler wraps the discordgo addhandler function to return a Session object.
+func (s *Session) AddHandler(i interface{}) {
 	switch t := i.(type) {
 	{{range .}}{{- if isDiscordEvent .}}
 	// {{.}}
-	case func(*Bot, *discordgo.{{.}}):
-		b.DG.AddHandler(func(s *discordgo.Session, data *discordgo.{{.}}) {
-			t(b, data)
+	case func(*Session, *discordgo.{{.}}):
+		s.DG.AddHandler(func(_ *discordgo.Session, data *discordgo.{{.}}) {
+			t(s, data)
 		})
 	{{end}}{{end}}
 	}
 }
 
-//AddHandlerOnce wraps the discordgo AddHandlerOnce function to return a Bot object
-func (b *Bot) AddHandlerOnce(i interface{}) {
+//AddHandlerOnce wraps the discordgo AddHandlerOnce function to return a Session object
+func (s *Session) AddHandlerOnce(i interface{}) {
 	switch t := i.(type) {
 	{{range .}}{{if isDiscordEvent .}}
 	// {{.}}
-	case func(*Bot, *discordgo.{{.}}):
-		b.DG.AddHandlerOnce(func(s *discordgo.Session, data *discordgo.{{.}}) {
-			t(b, data)
+	case func(*Session, *discordgo.{{.}}):
+		s.DG.AddHandlerOnce(func(_ *discordgo.Session, data *discordgo.{{.}}) {
+			t(s, data)
 		})
 	{{end}}{{end}}
 	}

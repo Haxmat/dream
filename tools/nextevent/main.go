@@ -29,16 +29,16 @@ import (
 
 {{range .}}
 // Next{{.}} returns the next {{.}} event
-func (b *Bot) Next{{.}}() *discordgo.{{.}} {
-	return <- b.Next{{.}}C()
+func (s *Session) Next{{.}}() *discordgo.{{.}} {
+	return <- s.Next{{.}}C()
 }
 {{end}}
 
 {{range .}}
 // Next{{.}}C returns a channel for the next {{.}} event
-func (b *Bot) Next{{.}}C() chan *discordgo.{{.}} {
+func (s *Session) Next{{.}}C() chan *discordgo.{{.}} {
 	out := make(chan *discordgo.{{.}})
-	b.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.{{.}}) {
+	s.DG.AddHandlerOnce(func(s *discordgo.Session, e *discordgo.{{.}}) {
 		out <- e
 	})
 	return out
