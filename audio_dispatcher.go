@@ -71,6 +71,16 @@ func (a *AudioDispatcher) IsStopped() bool {
 	return a.stopped
 }
 
+// IsPaused returns if the player is paused
+func (a *AudioDispatcher) IsPaused() bool {
+	return !a.stopped && !a.playing
+}
+
+// IsPlaying returns if the player is playing
+func (a *AudioDispatcher) IsPlaying() bool {
+	return a.playing
+}
+
 //Resume Resumes the currently playing audio
 func (a *AudioDispatcher) Resume() {
 	a.Lock()
@@ -94,7 +104,7 @@ func (a *AudioDispatcher) Pause() {
 //Stop Stops the currently playing audio and ends the dispatcher
 func (a *AudioDispatcher) Stop() {
 	a.Lock()
-	if !a.stopped {
+	if !a.stopped && a.playing {
 		a.control <- audioStop
 		a.stopped = true
 	}
@@ -113,7 +123,7 @@ func (a *AudioDispatcher) Start() (err error) {
 	if a.VC == nil {
 		return ErrVoiceConnectionNil
 	}
-	if a.playing {
+	if a.playing && !a.stopped {
 		return ErrAlreadyPlaying
 	}
 
