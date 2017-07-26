@@ -21,7 +21,7 @@ var eventHandlerTmpl = template.Must(template.New("eventHandler").Funcs(template
 }).Parse(`package dream
 
 import (
-	"github.com/bwmarrin/discordgo"
+	"github.com/Necroforger/discordgo"
 )
 // -------------------------------------
 // AUTO GENERATED CODE. DO NOT EDIT

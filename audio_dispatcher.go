@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/bwmarrin/discordgo"
+	"github.com/Necroforger/discordgo"
 )
 
 // TODO: Add error handling
@@ -61,7 +61,7 @@ func NewAudioDispatcher(vc *discordgo.VoiceConnection, source io.Reader) *AudioD
 		GuildID:   vc.GuildID,
 		ChannelID: vc.ChannelID,
 		playing:   false,
-		control:   make(chan int, 1),
+		control:   make(chan int),
 		source:    source,
 	}
 }
@@ -85,12 +85,8 @@ func (a *AudioDispatcher) IsPlaying() bool {
 func (a *AudioDispatcher) Resume() {
 	a.Lock()
 	if !a.playing && !a.stopped {
-		a.Unlock()
 		a.control <- audioResume
-		a.Lock()
 		a.playing = true
-		a.Unlock()
-		return
 	}
 	a.Unlock()
 }
@@ -99,12 +95,8 @@ func (a *AudioDispatcher) Resume() {
 func (a *AudioDispatcher) Pause() {
 	a.Lock()
 	if a.playing && !a.stopped {
-		a.Unlock()
 		a.control <- audioPause
-		a.Lock()
 		a.playing = false
-		a.Unlock()
-		return
 	}
 	a.Unlock()
 }
@@ -113,12 +105,8 @@ func (a *AudioDispatcher) Pause() {
 func (a *AudioDispatcher) Stop() {
 	a.Lock()
 	if !a.stopped && a.playing {
-		a.Unlock()
 		a.control <- audioStop
-		a.Lock()
 		a.stopped = true
-		a.Unlock()
-		return
 	}
 	a.Unlock()
 }
@@ -155,9 +143,9 @@ func (a *AudioDispatcher) Start() (err error) {
 	startTime := time.Now()
 
 	updateDuration := func() {
-		a.Lock()
+		// a.Lock()
 		a.Duration = time.Now().Sub(startTime)
-		a.Unlock()
+		// a.Unlock()
 	}
 
 	for {

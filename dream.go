@@ -5,7 +5,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/bwmarrin/discordgo"
+	"github.com/Necroforger/discordgo"
 )
 
 //Generate the AddHandler and AddHandlerOnce methods

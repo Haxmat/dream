@@ -1,6 +1,6 @@
 package dream
 
-import "github.com/bwmarrin/discordgo"
+import "github.com/Necroforger/discordgo"
 
 //Message -------------- Placeholder ---------------
 type Message struct {

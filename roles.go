@@ -3,7 +3,7 @@ package dream
 import (
 	"errors"
 
-	"github.com/bwmarrin/discordgo"
+	"github.com/Necroforger/discordgo"
 )
 
 //Error variables
