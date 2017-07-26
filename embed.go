@@ -1,6 +1,6 @@
 package dream
 
-import "github.com/Necroforger/discordgo"
+import "github.com/bwmarrin/discordgo"
 
 //Embed ...
 type Embed struct {

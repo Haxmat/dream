@@ -19,7 +19,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/Necroforger/discordgo"
+	"github.com/bwmarrin/discordgo"
 )
 
 /*                   TODO
