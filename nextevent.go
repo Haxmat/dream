@@ -1,7 +1,7 @@
 package dream
 
 import (
-	"github.com/Necroforger/discordgo"
+	"github.com/bwmarrin/discordgo"
 )
 
 // -------------------------------------

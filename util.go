@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Necroforger/discordgo"
+	"github.com/bwmarrin/discordgo"
 )
 
 /*

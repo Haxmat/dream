@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Necroforger/discordgo"
+	"github.com/bwmarrin/discordgo"
 )
 
 // TODO: Add error handling
