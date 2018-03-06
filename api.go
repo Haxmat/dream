@@ -1,12 +1,13 @@
 package dream
 
 import (
-	"bufio"
 	"errors"
 	"fmt"
 	"image"
 	"log"
 	"sort"
+
+	"github.com/jonas747/dca"
 
 	//Blank imports included for decoding a user's avatar into an image.
 	_ "image/gif"
@@ -16,7 +17,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"os/exec"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
@@ -228,56 +228,81 @@ func (s *Session) UserAvatar(userID, avatarID, size string) (image.Image, error)
 
 // Processes holds the processes for converting audio to opus.
 // It is needed to kill them in the future.
-type Processes struct {
-	Ffmpeg *exec.Cmd
-	Dcars  *exec.Cmd
-}
+// type Processes struct {
+// 	Ffmpeg *exec.Cmd
+// 	Dcars  *exec.Cmd
+// }
 
-// KillAll kills all running processes
-func (p *Processes) KillAll() {
-	if p.Ffmpeg != nil {
-		p.Ffmpeg.Process.Kill()
-	}
-	if p.Dcars != nil {
-		p.Dcars.Process.Kill()
-	}
-}
+// // KillAll kills all running processes
+// func (p *Processes) KillAll() {
+// 	if p.Ffmpeg != nil {
+// 		p.Ffmpeg.Process.Kill()
+// 	}
+// 	if p.Dcars != nil {
+// 		p.Dcars.Process.Kill()
+// 	}
+// }
 
-// convertToOpus converts the given io.Reader stream to an Opus stream
-// Using ffmpeg and dca-rs
-func (s *Session) convertToOpus(rd io.Reader) (io.Reader, *Processes, error) {
-	ffmpeg := exec.Command(s.Config.FfmpegPath, "-i", "pipe:0", "-f", "s16le", "-ar", "48000", "-ac", "2", "pipe:1")
-	ffmpeg.Stdin = rd
-	ffmpegout, err := ffmpeg.StdoutPipe()
+// // convertToOpus converts the given io.Reader stream to an Opus stream
+// // Using ffmpeg and dca-rs
+// func (s *Session) convertToOpus(rd io.Reader) (io.Reader, *Processes, error) {
+// 	ffmpeg := exec.Command(s.Config.FfmpegPath, "-i", "pipe:0", "-f", "s16le", "-ar", "48000", "-ac", "2", "pipe:1")
+// 	ffmpeg.Stdin = rd
+// 	ffmpegout, err := ffmpeg.StdoutPipe()
+// 	if err != nil {
+// 		return nil, nil, err
+// 	}
+
+// 	dca := exec.Command(s.Config.DcaRsPath, "--raw", "-i", "pipe:0")
+// 	dca.Stdin = ffmpegout
+// 	dcaout, err := dca.StdoutPipe()
+// 	dcabuf := bufio.NewReaderSize(dcaout, 1024)
+// 	if err != nil {
+// 		return nil, nil, err
+// 	}
+
+// 	err = ffmpeg.Start()
+// 	if err != nil {
+// 		log.Println("convertToOpus err: ", err)
+// 		return nil, nil, err
+// 	}
+
+// 	err = dca.Start()
+// 	if err != nil {
+// 		log.Println("convertToOpus err: ", err)
+// 		return nil, nil, err
+// 	}
+
+// 	processes := &Processes{
+// 		Ffmpeg: ffmpeg,
+// 		Dcars:  dca,
+// 	}
+// 	return dcabuf, processes, nil
+// }
+
+func (s *Session) convertToOpus2(dst io.Writer, src io.Reader) error {
+	encodingSession, err := dca.EncodeMem(src, &dca.EncodeOptions{
+		Volume:           256,
+		Channels:         2,
+		FrameRate:        48000,
+		FrameDuration:    20,
+		Bitrate:          64,
+		Application:      dca.AudioApplicationAudio,
+		CompressionLevel: 10,
+		PacketLoss:       1,
+		VBR:              true,
+		RawOutput:        true,
+	})
 	if err != nil {
-		return nil, nil, err
+		return err
 	}
 
-	dca := exec.Command(s.Config.DcaRsPath, "--raw", "-i", "pipe:0")
-	dca.Stdin = ffmpegout
-	dcaout, err := dca.StdoutPipe()
-	dcabuf := bufio.NewReaderSize(dcaout, 1024)
+	_, err = io.Copy(dst, encodingSession)
 	if err != nil {
-		return nil, nil, err
+		return err
 	}
 
-	err = ffmpeg.Start()
-	if err != nil {
-		log.Println("convertToOpus err: ", err)
-		return nil, nil, err
-	}
-
-	err = dca.Start()
-	if err != nil {
-		log.Println("convertToOpus err: ", err)
-		return nil, nil, err
-	}
-
-	processes := &Processes{
-		Ffmpeg: ffmpeg,
-		Dcars:  dca,
-	}
-	return dcabuf, processes, nil
+	return nil
 }
 
 // GuildAudioDispatcherStop a guild's currently playing audio dispatchers
@@ -341,18 +366,23 @@ func (s *Session) GuildAudioDispatcher(i interface{}) (*AudioDispatcher, error) 
 
 // PlayStream plays an audio stream from the given io reader and uses ffmpeg to convert to a suitable format
 func (s *Session) PlayStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDispatcher {
-	opusStream, procs, err := s.convertToOpus(rd)
-	if err != nil {
-		return nil
-	}
+	log.Println("encoding opus")
+	opusStream, wr := io.Pipe()
+	go func() {
+		err := s.convertToOpus2(wr, rd)
+		if err != nil {
+			log.Println("error converting audio to opus: ", err)
+		}
+		wr.Close()
+	}()
 
+	log.Println("Adding audio dispatcher")
 	disp := NewAudioDispatcher(vc, opusStream)
 	s.GuildAudioDispatcherStop(vc.GuildID)
 	s.addAudioDispatcher(disp)
 
 	go func() {
 		disp.Start()
-		procs.KillAll()
 	}()
 
 	return disp

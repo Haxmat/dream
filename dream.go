@@ -38,17 +38,12 @@ type Config struct {
 	// FfmpegPath is the path to use for the ffmpeg command.
 	// Default "ffmpeg"
 	FfmpegPath string
-
-	//DcaRsPath is the location of the dca-rs executeable for encoding opus
-	// Default: "./dca-rs"
-	DcaRsPath string
 }
 
 //NewConfig returns the default configuration options for the bot
 func NewConfig() Config {
 	return Config{
 		FfmpegPath: "ffmpeg",
-		DcaRsPath:  "./dca-rs",
 	}
 }
 
