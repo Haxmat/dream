@@ -286,7 +286,7 @@ func (s *Session) convertToOpus2(dst io.Writer, src io.Reader) error {
 		Channels:         2,
 		FrameRate:        48000,
 		FrameDuration:    20,
-		Bitrate:          64,
+		Bitrate:          128,
 		Application:      dca.AudioApplicationAudio,
 		CompressionLevel: 10,
 		PacketLoss:       1,
@@ -366,7 +366,6 @@ func (s *Session) GuildAudioDispatcher(i interface{}) (*AudioDispatcher, error) 
 
 // PlayStream plays an audio stream from the given io reader and uses ffmpeg to convert to a suitable format
 func (s *Session) PlayStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDispatcher {
-	log.Println("encoding opus")
 	opusStream, wr := io.Pipe()
 	go func() {
 		err := s.convertToOpus2(wr, rd)
@@ -376,7 +375,6 @@ func (s *Session) PlayStream(vc *discordgo.VoiceConnection, rd io.Reader) *Audio
 		wr.Close()
 	}()
 
-	log.Println("Adding audio dispatcher")
 	disp := NewAudioDispatcher(vc, opusStream)
 	s.GuildAudioDispatcherStop(vc.GuildID)
 	s.addAudioDispatcher(disp)
