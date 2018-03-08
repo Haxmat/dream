@@ -3,7 +3,6 @@ package dream
 import (
 	"errors"
 	"fmt"
-	"image"
 	"log"
 	"sort"
 
@@ -15,9 +14,7 @@ import (
 	_ "image/png"
 
 	"io"
-	"net/http"
 	"os"
-	"strings"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -201,95 +198,17 @@ func (s *Session) UserVoiceStateJoin(userID interface{}, mute, deaf bool) (*disc
 	return s.ChannelVoiceJoin(vs.GuildID, vs.ChannelID, mute, deaf)
 }
 
-// UserAvatarURL returns the URL of a User's Avatar. Sizes: 64, 128, 256, 512, 1024...
-func (s *Session) UserAvatarURL(userID, avatarID, size string) string {
-	extension := ".jpg"
-	if strings.HasPrefix(avatarID, "a_") {
-		extension = ".gif"
-	}
-	return discordgo.EndpointCDNAvatars + userID + "/" + avatarID + extension + "?size=" + size
-}
-
-// UserAvatar returns a user's avatar decoded into an image
-func (s *Session) UserAvatar(userID, avatarID, size string) (image.Image, error) {
-	url := s.UserAvatarURL(userID, avatarID, size)
-	resp, err := http.Get(url)
-	if err != nil {
-		return nil, err
-	}
-
-	img, _, err := image.Decode(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	return img, nil
-}
-
-// Processes holds the processes for converting audio to opus.
-// It is needed to kill them in the future.
-// type Processes struct {
-// 	Ffmpeg *exec.Cmd
-// 	Dcars  *exec.Cmd
-// }
-
-// // KillAll kills all running processes
-// func (p *Processes) KillAll() {
-// 	if p.Ffmpeg != nil {
-// 		p.Ffmpeg.Process.Kill()
-// 	}
-// 	if p.Dcars != nil {
-// 		p.Dcars.Process.Kill()
-// 	}
-// }
-
-// // convertToOpus converts the given io.Reader stream to an Opus stream
-// // Using ffmpeg and dca-rs
-// func (s *Session) convertToOpus(rd io.Reader) (io.Reader, *Processes, error) {
-// 	ffmpeg := exec.Command(s.Config.FfmpegPath, "-i", "pipe:0", "-f", "s16le", "-ar", "48000", "-ac", "2", "pipe:1")
-// 	ffmpeg.Stdin = rd
-// 	ffmpegout, err := ffmpeg.StdoutPipe()
-// 	if err != nil {
-// 		return nil, nil, err
-// 	}
-
-// 	dca := exec.Command(s.Config.DcaRsPath, "--raw", "-i", "pipe:0")
-// 	dca.Stdin = ffmpegout
-// 	dcaout, err := dca.StdoutPipe()
-// 	dcabuf := bufio.NewReaderSize(dcaout, 1024)
-// 	if err != nil {
-// 		return nil, nil, err
-// 	}
-
-// 	err = ffmpeg.Start()
-// 	if err != nil {
-// 		log.Println("convertToOpus err: ", err)
-// 		return nil, nil, err
-// 	}
-
-// 	err = dca.Start()
-// 	if err != nil {
-// 		log.Println("convertToOpus err: ", err)
-// 		return nil, nil, err
-// 	}
-
-// 	processes := &Processes{
-// 		Ffmpeg: ffmpeg,
-// 		Dcars:  dca,
-// 	}
-// 	return dcabuf, processes, nil
-// }
-
 func (s *Session) convertToOpus2(dst io.Writer, src io.Reader) error {
 	encodingSession, err := dca.EncodeMem(src, &dca.EncodeOptions{
 		Volume:           256,
 		Channels:         2,
 		FrameRate:        48000,
 		FrameDuration:    20,
-		Bitrate:          128,
+		BufferedFrames:   100,
+		Bitrate:          96,
 		Application:      dca.AudioApplicationAudio,
 		CompressionLevel: 10,
-		PacketLoss:       1,
+		PacketLoss:       0,
 		VBR:              true,
 		RawOutput:        true,
 	})
