@@ -198,7 +198,8 @@ func (s *Session) UserVoiceStateJoin(userID interface{}, mute, deaf bool) (*disc
 	return s.ChannelVoiceJoin(vs.GuildID, vs.ChannelID, mute, deaf)
 }
 
-func (s *Session) convertToOpus2(dst io.Writer, src io.Reader) error {
+func (s *Session) convertToOpus(dst io.Writer, src io.Reader) error {
+	// dca.Logger = log.New(os.Stderr, "----", log.Ldate)
 	encodingSession, err := dca.EncodeMem(src, &dca.EncodeOptions{
 		Volume:           256,
 		Channels:         2,
@@ -287,7 +288,7 @@ func (s *Session) GuildAudioDispatcher(i interface{}) (*AudioDispatcher, error) 
 func (s *Session) PlayStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDispatcher {
 	opusStream, wr := io.Pipe()
 	go func() {
-		err := s.convertToOpus2(wr, rd)
+		err := s.convertToOpus(wr, rd)
 		if err != nil {
 			log.Println("error converting audio to opus: ", err)
 		}
