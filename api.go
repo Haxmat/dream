@@ -219,6 +219,7 @@ func (s *Session) convertToOpus(dst io.Writer, src io.Reader) error {
 
 	_, err = io.Copy(dst, encodingSession)
 	if err != nil {
+		encodingSession.Cleanup()
 		return err
 	}
 
@@ -285,7 +286,7 @@ func (s *Session) GuildAudioDispatcher(i interface{}) (*AudioDispatcher, error) 
 }
 
 // PlayStream plays an audio stream from the given io reader and uses ffmpeg to convert to a suitable format
-func (s *Session) PlayStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDispatcher {
+func (s *Session) PlayStream(vc *discordgo.VoiceConnection, rd io.ReadCloser) *AudioDispatcher {
 	opusStream, wr := io.Pipe()
 	go func() {
 		err := s.convertToOpus(wr, rd)
@@ -307,7 +308,7 @@ func (s *Session) PlayStream(vc *discordgo.VoiceConnection, rd io.Reader) *Audio
 }
 
 // PlayRawStream plays a direct stream
-func (s *Session) PlayRawStream(vc *discordgo.VoiceConnection, rd io.Reader) *AudioDispatcher {
+func (s *Session) PlayRawStream(vc *discordgo.VoiceConnection, rd io.ReadCloser) *AudioDispatcher {
 	disp := NewAudioDispatcher(vc, rd)
 	s.GuildAudioDispatcherStop(vc.GuildID)
 	s.addAudioDispatcher(disp)

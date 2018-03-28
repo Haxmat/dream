@@ -43,7 +43,7 @@ type AudioDispatcher struct {
 	control chan int
 
 	// Source is a stream of opus data
-	source io.Reader
+	source io.ReadCloser
 
 	GuildID   string
 	ChannelID string
@@ -55,7 +55,7 @@ type AudioDispatcher struct {
 
 // NewAudioDispatcher Creates a new audio dispatcher given a  `VoiceConnection`[vc] and an `io.Reader`[source]
 // The io.Reader must be a stream of opus data.
-func NewAudioDispatcher(vc *discordgo.VoiceConnection, source io.Reader) *AudioDispatcher {
+func NewAudioDispatcher(vc *discordgo.VoiceConnection, source io.ReadCloser) *AudioDispatcher {
 	return &AudioDispatcher{
 		VC:        vc,
 		GuildID:   vc.GuildID,
@@ -137,6 +137,9 @@ func (a *AudioDispatcher) Start() (err error) {
 	defer func() {
 		a.Lock()
 		a.stopped = true
+
+		// Close the source stream
+		a.source.Close()
 		a.Unlock()
 	}()
 
