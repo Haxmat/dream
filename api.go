@@ -216,10 +216,10 @@ func (s *Session) convertToOpus(dst io.Writer, src io.Reader) error {
 	if err != nil {
 		return err
 	}
+	defer encodingSession.Cleanup()
 
 	_, err = io.Copy(dst, encodingSession)
 	if err != nil {
-		encodingSession.Cleanup()
 		return err
 	}
 
